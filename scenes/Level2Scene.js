@@ -13,19 +13,39 @@ class Level2Scene extends Phaser.Scene {
     player;
 
     preload() {
-        this.load.image('sky', 'assets/sky.png');
-        this.load.image('ground2', 'assets/platform2.png');
+        // Background Assets
+        this.load.image('sky', 'assets/backgrounds/sky.png');
+        this.load.image('midground', 'assets/backgrounds/midground.png');
+
+        // Environment Assets
+        this.load.image('ground', 'assets/level1to5/platform.png');
+        this.load.image('wall', 'assets/level1to5/verticalplat.png');
+
+        // Entity Assets
         this.load.image('star', 'assets/star.png');
-        this.load.image('bomb', 'assets/bomb.png');
         this.load.spritesheet('dude', 'assets/dude.png', { frameWidth: 32, frameHeight: 48 });
     }
 
     create() {
         this.add.image(400, 300, 'sky');
+        this.add.image(400, 300, 'midground');
         this.platforms = this.physics.add.staticGroup();
-        this.platforms.create(0, 600, 'ground2');
-        this.platforms.create(400, 600, 'ground2');
-        this.platforms.create(600, 600, 'ground2');
+        
+        // Floor
+        this.platforms.create(200, 553, 'ground');
+        this.platforms.create(600, 553, 'ground');
+        this.platforms.create(200, 585, 'ground');
+        this.platforms.create(600, 585, 'ground');
+
+        // Platforms
+        this.platforms.create(530, 440, 'ground');
+        this.platforms.create(790, 170, 'ground');
+
+        // Walls
+        this.platforms.create(520, 120, 'wall');
+        this.platforms.create(237, 465, 'wall');
+        this.platforms.create(130, 575, 'wall');
+        this.platforms.create(18, 430, 'wall');
 
         this.player = createPlayer(this, 700, 100);
 

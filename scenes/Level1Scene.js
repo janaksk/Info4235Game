@@ -13,17 +13,31 @@ class Level1Scene extends Phaser.Scene {
     player;
 
     preload() {
-        this.load.image('sky', 'assets/sky.png');
-        this.load.image('ground', 'assets/platform.png');
+        // Background Assets
+        this.load.image('sky', 'assets/backgrounds/sky.png');
+        this.load.image('midground', 'assets/backgrounds/midground.png');
+
+        // Environment Assets
+        this.load.image('ground', 'assets/level1to5/platform.png');
+
+        // Entity Assets
         this.load.image('star', 'assets/star.png');
-        this.load.image('bomb', 'assets/bomb.png');
         this.load.spritesheet('dude', 'assets/dude.png', { frameWidth: 32, frameHeight: 48 });
     }
 
     create() {
+        // Putting Foreground and midground
         this.add.image(400, 300, 'sky');
+        this.add.image(400, 300, 'midground');
         this.platforms = this.physics.add.staticGroup();
-        this.platforms.create(400, 568, 'ground').setScale(2).refreshBody();
+        
+        // Floor
+        this.platforms.create(200, 553, 'ground');
+        this.platforms.create(600, 553, 'ground');
+        this.platforms.create(200, 585, 'ground');
+        this.platforms.create(600, 585, 'ground');
+
+        // Platforms
         this.platforms.create(600, 400, 'ground');
         this.platforms.create(50, 250, 'ground');
         this.platforms.create(750, 220, 'ground');
