@@ -14,8 +14,8 @@ class Level3Scene extends Phaser.Scene {
 
     preload() {
         // Background Assets
-        this.load.image('sky', 'assets/backgrounds/sky2.png');
-        this.load.image('midground', 'assets/backgrounds/midground.png');
+        this.load.image('sky', 'assets/backgrounds/tree.png');
+        this.load.atlas('tiles', 'assets/platformer.png', 'assets/platformer.json');
 
         // Environment Assets
         this.load.image('ground', 'assets/level1to5/platform.png');
@@ -28,35 +28,40 @@ class Level3Scene extends Phaser.Scene {
 
     create() {
         this.add.image(400, 300, 'sky');
-        //this.add.image(400, 300, 'midground');
         this.platforms = this.physics.add.staticGroup();
-        
-        // Floor
-        this.platforms.create(200, 553, 'ground');
-        this.platforms.create(600, 553, 'ground');
-        this.platforms.create(200, 585, 'ground');
-        this.platforms.create(600, 585, 'ground');
+
+        // Water
+        const water = this.physics.add.staticGroup();
+
+        for (let i = 0; i < 6; i++)
+        {
+            water.create(i * 128, 552, 'tiles', '17');
+        }
+
+        // ground
+        const ground = this.physics.add.staticGroup();
+        ground.create(64, 536, 'tiles', '6');
+        ground.create(64, 536-128, 'tiles', '6');
+        ground.create(64, 536-256, 'tiles', '6');
+        ground.create(64, 536-384, 'tiles', '3');
+        ground.create(736, 536, 'tiles', '1');
+
+        // this.add.image(740, 440, 'tiles', 'sign2');
 
         // Platforms
-        this.platforms.create(530, 440, 'ground');
-        this.platforms.create(790, 170, 'ground');
+        const platform1 = this.platforms.create(330, 400 ,'tiles', 'platform1');
+        const platform2 = this.platforms.create(630, 280,'tiles', 'platform1');
 
-        // Walls
-        this.platforms.create(520, 120, 'wall');
-        this.platforms.create(237, 465, 'wall');
-        this.platforms.create(130, 575, 'wall');
-        this.platforms.create(18, 430, 'wall');
-
-        this.player = createPlayer(this, 700, 100);
+        this.player = createPlayer(this, 64, 64);
 
         this.cursors = this.input.keyboard.createCursorKeys();
         this.stars = this.physics.add.staticGroup();
 
         const starPositions = [
-            { x: 100, y: 100 }, { x: 200, y: 150 }, { x: 300, y: 200 },
-            { x: 400, y: 300 }, { x: 400, y: 350 }, { x: 500, y: 500 },
-            { x: 650, y: 500 }, { x: 650, y: 300 }, { x: 650, y: 100 },
-            { x: 700, y: 150 }
+            { x: 200, y: 250 }, { x: 200, y: 320 }, { x: 350, y: 120 },
+            { x: 400, y: 200 }, { x: 500, y: 110 }, { x: 500, y: 450 },
+            { x: 650, y: 400 }, { x: 650, y: 480 }, { x: 750, y: 450 },
+            { x: 550, y: 380 }
         ];
 
         starPositions.forEach(pos => {
@@ -65,11 +70,14 @@ class Level3Scene extends Phaser.Scene {
 
         this.scoreText = this.add.text(16, 16, 'Score: 0/10', { fontSize: '32px', fill: '#000' });
         this.physics.add.collider(this.player, this.platforms);
+        this.physics.add.collider(this.player, ground);
+        this.physics.add.collider(this.player, water, () => this.player.setPosition(64, 64));
         this.physics.add.overlap(this.player, this.stars, this.collectStar, null, this);
     }
 
     update() {
         handlePlayerMovement(this.cursors, this.player);
+
     }
 
     collectStar(player, star) {
