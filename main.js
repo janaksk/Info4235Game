@@ -15,6 +15,9 @@ const config = {
             debug: false
         }
     },
+    audio: {
+        disableWebAudio: true
+    },
     scale: {
         mode: Phaser.Scale.FIT,
         autoCenter: Phaser.Scale.CENTER_BOTH
@@ -25,4 +28,4 @@ const config = {
 const game = new Phaser.Game(config);
 
 // For Debug (to test specific level, change the value below)
-//game.scene.start('Level2Scene');
+//game.scene.start('Level3Scene');

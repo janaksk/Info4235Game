@@ -1,4 +1,4 @@
-import { createPlayer, handlePlayerMovement } from '../utils/commonFunctions.js';
+import { createPlayer, handlePlayerMovement, playSoundEffect } from '../utils/commonFunctions.js';
 
 class Level3Scene extends Phaser.Scene {
     constructor() {
@@ -12,6 +12,10 @@ class Level3Scene extends Phaser.Scene {
     stars;
     player;
 
+    // Sound settings will replace these values
+    volMusic = 1;
+    volSFX = .5;
+
     preload() {
         // Background Assets
         this.load.image('sky', 'assets/backgrounds/tree.png');
@@ -24,15 +28,24 @@ class Level3Scene extends Phaser.Scene {
         // Entity Assets
         this.load.image('star', 'assets/star.png');
         this.load.spritesheet('dude', 'assets/dude.png', { frameWidth: 32, frameHeight: 48 });
+
+        // SFX Assets
+        this.load.audio('starCollected', 'assets/sfx/star_collected.mp3');
+        this.load.audio('jumpSound', 'assets/sfx/jump.mp3');
+        this.load.audio('waterSplash', 'assets/sfx/water_splash.mp3');
+
     }
 
     create() {
+
+
         this.add.image(400, 300, 'sky');
         this.platforms = this.physics.add.staticGroup();
 
         // Water
         const water = this.physics.add.staticGroup();
 
+        // What Tiles Water
         for (let i = 0; i < 6; i++)
         {
             water.create(i * 128, 552, 'tiles', '17');
@@ -71,16 +84,28 @@ class Level3Scene extends Phaser.Scene {
         this.scoreText = this.add.text(16, 16, 'Score: 0/10', { fontSize: '32px', fill: '#000' });
         this.physics.add.collider(this.player, this.platforms);
         this.physics.add.collider(this.player, ground);
-        this.physics.add.collider(this.player, water, () => this.player.setPosition(64, 64));
+
+        this.physics.add.collider(this.player, water, () => {
+            this.player.setPosition(64, 64)
+            playSoundEffect(this, 'waterSplash', { volume: this.volSFX });
+        });
+        
         this.physics.add.overlap(this.player, this.stars, this.collectStar, null, this);
     }
 
     update() {
         handlePlayerMovement(this.cursors, this.player);
 
+        // Example: Directly play jump sound
+        if (this.cursors.up.isDown && this.player.body.touching.down) {
+            playSoundEffect(this, 'jumpSound', { volume: this.volSFX });
+        }
     }
 
     collectStar(player, star) {
+        // Play the star collection SFX using the external function
+        playSoundEffect(this, 'starCollected', { volume: this.volSFX });
+
         star.disableBody(true, true);
         this.score += 1;
         this.scoreText.setText(`Score: ${this.score} /10`);

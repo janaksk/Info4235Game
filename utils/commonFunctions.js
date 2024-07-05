@@ -42,3 +42,26 @@ export function handlePlayerMovement(cursors, player) {
         player.setVelocityY(-330);
     }
 }
+
+let currentMusic = null;
+
+export function playBackgroundMusic(scene, key, options = {}) {
+
+    // Stop the currently playing music if there is one
+    if (currentMusic && currentMusic.isPlaying) {
+        currentMusic.stop();
+    }
+
+    // Load and play the new music track
+    currentMusic = scene.sound.add(key, { volume: options.volume || 1, loop: options.loop !== undefined ? options.loop : true });
+    currentMusic.play();
+
+    return currentMusic;
+}
+
+export function playSoundEffect(scene, key, options = {}) {
+    const sfx = scene.sound.add(key, { volume: options.volume || 1 });
+    sfx.play();
+
+    return sfx;
+}

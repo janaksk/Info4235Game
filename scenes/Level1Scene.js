@@ -1,4 +1,4 @@
-import { createPlayer, handlePlayerMovement } from '../utils/commonFunctions.js';
+import { createPlayer, handlePlayerMovement, playBackgroundMusic, playSoundEffect } from '../utils/commonFunctions.js';
 
 class Level1Scene extends Phaser.Scene {
     constructor() {
@@ -12,6 +12,10 @@ class Level1Scene extends Phaser.Scene {
     stars;
     player;
 
+    // Sound settings will replace these values
+    volMusic = 1;
+    volSFX = .5;
+
     preload() {
         // Background Assets
         this.load.image('sky', 'assets/backgrounds/sky.png');
@@ -23,9 +27,19 @@ class Level1Scene extends Phaser.Scene {
         // Entity Assets
         this.load.image('star', 'assets/star.png');
         this.load.spritesheet('dude', 'assets/dude.png', { frameWidth: 32, frameHeight: 48 });
+
+        // SFX Assets
+        this.load.audio('starCollected', 'assets/sfx/star_collected.mp3');
+        this.load.audio('jumpSound', 'assets/sfx/jump.mp3');
+
+        // Music Asset
+        this.load.audio('track2', 'assets/music/Track2.mp3')
     }
 
     create() {
+        // Play music
+        playBackgroundMusic(this, 'track2', { volume: this.volMusic, loop: true });
+
         // Putting Foreground and midground
         this.add.image(400, 300, 'sky');
         this.add.image(400, 300, 'midground');
@@ -65,9 +79,18 @@ class Level1Scene extends Phaser.Scene {
 
     update() {
         handlePlayerMovement(this.cursors, this.player);
+
+        // Example: Directly play jump sound
+        if (this.cursors.up.isDown && this.player.body.touching.down) {
+            playSoundEffect(this, 'jumpSound', { volume: this.volSFX });
+        }
+
     }
 
     collectStar(player, star) {
+        // Play the star collection SFX using the external function
+        playSoundEffect(this, 'starCollected', { volume: this.volSFX });
+
         star.disableBody(true, true);
         this.score += 1;
         this.scoreText.setText(`Score: ${this.score} /10`);
