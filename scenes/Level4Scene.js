@@ -12,6 +12,7 @@ class Level4Scene extends Phaser.Scene {
     stars;
     player;
     rockets;
+    rocketSpeed = 200;
 
     // Sound settings will replace these values
     volMusic = 1;
@@ -69,7 +70,7 @@ class Level4Scene extends Phaser.Scene {
         const starPositions = [
             { x: 50, y: 350  }, { x: 150, y: 100 }, { x: 350, y: 500 },
             { x: 400, y: 350 }, { x: 450, y: 500 }, { x: 500, y: 250 },
-            { x: 700, y: 400 }, { x: 750, y: 50 }, { x: 760, y: 170 },
+            { x: 700, y: 400 }, { x: 700, y: 250 }, { x: 750, y: 50 },
             { x: 760, y: 500 }
         ];
 
@@ -86,11 +87,11 @@ class Level4Scene extends Phaser.Scene {
         this.rockets = this.physics.add.group({immovable: true, allowGravity: false});
         
         this.rocket1 = this.rockets.create(800, 350, 'rocket').setScale(0.5);
-        this.rocket1.setVelocityX(-300);
+        this.rocket1.setVelocityX(-this.rocketSpeed);
 
         this.rocket2 = this.rockets.create(0, 250, 'rocket').setScale(0.5);
         this.rocket2.flipX = true;
-        this.rocket2.setVelocityX(300);
+        this.rocket2.setVelocityX(this.rocketSpeed);
 
         this.physics.add.overlap(this.player, this.rockets, this.hitRocket, null, this);
     }
