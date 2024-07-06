@@ -59,7 +59,7 @@ class Level4Scene extends Phaser.Scene {
         this.platforms.create(0, 400, 'ground');
         this.platforms.create(400, 300, 'ground');
         this.platforms.create(100, 200, 'ground');
-        this.platforms.create(800, 100, 'ground');
+        this.platforms.create(800, 140, 'ground');
 
         this.player = createPlayer(this, 100, 450);
 
