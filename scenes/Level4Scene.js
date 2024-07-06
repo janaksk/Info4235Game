@@ -1,4 +1,4 @@
-import { createPlayer, handlePlayerMovement } from '../utils/commonFunctions.js';
+import { createPlayer, handlePlayerMovement, playSoundEffect } from '../utils/commonFunctions.js';
 
 class Level4Scene extends Phaser.Scene {
     constructor() {
@@ -11,8 +11,11 @@ class Level4Scene extends Phaser.Scene {
     platforms;
     stars;
     player;
-    bombs;
     rockets;
+
+    // Sound settings will replace these values
+    volMusic = 1;
+    volSFX = .5;
     
     preload() {
         // Background Assets
@@ -26,9 +29,12 @@ class Level4Scene extends Phaser.Scene {
         // Entity Assets
         this.load.image('star', 'assets/star.png');
         this.load.spritesheet('dude', 'assets/dude.png', { frameWidth: 32, frameHeight: 48 });
-
-        this.load.image('bomb', 'assets/bomb.png');
         this.load.image('rocket', 'assets/rocket.png');
+
+        // SFX Assets
+        this.load.audio('starCollected', 'assets/sfx/star_collected.mp3');
+        this.load.audio('jumpSound', 'assets/sfx/jump.mp3');
+
     }
 
     create() {
@@ -87,21 +93,16 @@ class Level4Scene extends Phaser.Scene {
         this.rocket2.setVelocityX(300);
 
         this.physics.add.overlap(this.player, this.rockets, this.hitRocket, null, this);
-
-        // bombs
-        // this.bombs = this.physics.add.group();
-
-        // this.bomb = this.bombs.create(16, 16, 'bomb');
-        // this.bomb.setBounce(1);
-        // this.bomb.setCollideWorldBounds(true);
-        // this.bomb.setVelocity(Phaser.Math.Between(-200, 200), 20);
-
-        // this.physics.add.collider(this.bombs, this.platforms);
-        // this.physics.add.collider(this.player, this.bombs, this.hitBomb, null, this);
     }
 
     update() {
         handlePlayerMovement(this.cursors, this.player);
+
+         // Example: Directly play jump sound
+         if (this.cursors.up.isDown && this.player.body.touching.down) {
+            playSoundEffect(this, 'jumpSound', { volume: this.volSFX });
+        } 
+
         // If rockets go out of bounds set them back to original position
         if (this.rocket1.x < 0) {
             this.rocket1.setPosition(800, 350);
@@ -111,18 +112,18 @@ class Level4Scene extends Phaser.Scene {
         }
     }
 
-    // hitBomb (player, bomb) {
-    //     this.player.setPosition(100, 450);
-    // }
-
     hitRocket (player, rocket){
         this.player.setPosition(100, 450);
     }
 
     collectStar(player, star) {
+        // Play the star collection SFX using the external function
+        playSoundEffect(this, 'starCollected', { volume: this.volSFX });
+
         star.disableBody(true, true);
         this.score += 1;
         this.scoreText.setText(`Score: ${this.score} /10`);
+
         if (this.score === 10) {
             this.scene.start('Level5Scene');
         }
