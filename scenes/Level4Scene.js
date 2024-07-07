@@ -17,6 +17,11 @@ class Level4Scene extends Phaser.Scene {
     // Sound settings will replace these values
     volMusic = 1;
     volSFX = .5;
+
+    init () {
+        // Camera Fade in
+        this.cameras.main.fadeIn(800);
+    }
     
     preload() {
         // Background Assets
@@ -126,7 +131,13 @@ class Level4Scene extends Phaser.Scene {
         this.scoreText.setText(`Score: ${this.score} /10`);
 
         if (this.score === 10) {
-            this.scene.start('Level5Scene');
+            // Fade Out Camera
+            this.cameras.main.fadeOut(800);
+
+            // Start next level after camera has faded
+            this.time.delayedCall(800, function() {
+                this.scene.start('Level5Scene');
+            }, [], this);
         }
     }
 }

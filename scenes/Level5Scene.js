@@ -1,8 +1,8 @@
 import { createPlayer, handlePlayerMovement } from '../utils/commonFunctions.js';
 
-class Level2Scene extends Phaser.Scene {
+class Level5Scene extends Phaser.Scene {
     constructor() {
-        super({ key: 'Level2Scene' });
+        super({ key: 'Level5Scene' });
     }
 
     scoreText;
@@ -65,4 +65,4 @@ class Level2Scene extends Phaser.Scene {
     }
 }
 
-export default Level2Scene;
+export default Level5Scene;

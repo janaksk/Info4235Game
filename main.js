@@ -28,4 +28,4 @@ const config = {
 const game = new Phaser.Game(config);
 
 // For Debug (to test specific level, change the value below)
-//game.scene.start('Level3Scene');
+//game.scene.start('Level2Scene');

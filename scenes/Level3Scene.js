@@ -16,6 +16,11 @@ class Level3Scene extends Phaser.Scene {
     volMusic = 1;
     volSFX = .5;
 
+    init () {
+        // Camera Fade in
+        this.cameras.main.fadeIn(800);
+    }
+
     preload() {
         // Background Assets
         this.load.image('sky', 'assets/backgrounds/tree.png');
@@ -111,7 +116,13 @@ class Level3Scene extends Phaser.Scene {
         this.scoreText.setText(`Score: ${this.score} /10`);
 
         if (this.score === 10) {
-            this.scene.start('Level4Scene');
+            // Fade Out Camera (Shorter duration so you dont die to water)
+            this.cameras.main.fadeOut(100);
+
+            // Start next level after camera has faded
+            this.time.delayedCall(100, function() {
+                this.scene.start('Level4Scene');
+            }, [], this);
         }
     }
 }

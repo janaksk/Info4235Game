@@ -16,7 +16,13 @@ class Level1Scene extends Phaser.Scene {
     volMusic = 1;
     volSFX = .5;
 
+    init () {
+        // Camera Fade in
+        this.cameras.main.fadeIn(800);
+    }
+
     preload() {
+
         // Background Assets
         this.load.image('sky', 'assets/backgrounds/sky.png');
         this.load.image('midground', 'assets/backgrounds/midground.png');
@@ -96,7 +102,13 @@ class Level1Scene extends Phaser.Scene {
         this.scoreText.setText(`Score: ${this.score} /10`);
 
         if (this.score === 10) {
-            this.scene.start('Level2Scene');
+            // Fade Out Camera
+            this.cameras.main.fadeOut(800);
+
+            // Start next level after camera has faded
+            this.time.delayedCall(800, function() {
+                this.scene.start('Level2Scene');
+            }, [], this);
         }
     }
 }
