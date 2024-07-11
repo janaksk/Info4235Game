@@ -28,7 +28,7 @@ const config = {
         autoCenter: Phaser.Scale.CENTER_BOTH
     },
     //scene: [ LoadingScene, MenuScene, Level1Scene, Level2Scene, Level3Scene, Level4Scene]
-    scene: [LoadingScene]
+    scene: [MenuScene]
 };
 
 
