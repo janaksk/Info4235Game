@@ -1,6 +1,13 @@
-import MenuOption from '../utils/menuOption.js';
-import { onContinue, onNewGame, onLevel, onSettings, onQuit, onLogout } from '../utils/menuActions.js';
-import { addKeyboardInput } from '../utils/keyboardInput.js';
+import MenuOption from "../utils/menuOption.js";
+import {
+  onContinue,
+  onNewGame,
+  onLevel,
+  onSettings,
+  onQuit,
+  onLogout,
+} from "../utils/menuActions.js";
+import { addKeyboardInput } from "../utils/keyboardInput.js";
 
 class MenuScene extends Phaser.Scene {
   constructor() {
@@ -21,17 +28,30 @@ class MenuScene extends Phaser.Scene {
       .setOrigin(0.5);
 
     // Create menu options
-    this.menuOptions.push(new MenuOption(this, 400, 200, "Continue", onContinue));
-    this.menuOptions.push(new MenuOption(this, 400, 250, "New Game", onNewGame));
+    this.menuOptions.push(
+      new MenuOption(this, 400, 200, "Continue", onContinue)
+    );
+    this.menuOptions.push(
+      new MenuOption(this, 400, 250, "New Game", onNewGame)
+    );
     this.menuOptions.push(new MenuOption(this, 400, 300, "Level", onLevel));
-    this.menuOptions.push(new MenuOption(this, 400, 350, "Settings", onSettings));
+    this.menuOptions.push(
+      new MenuOption(this, 400, 350, "Settings", onSettings)
+    );
     this.menuOptions.push(new MenuOption(this, 400, 400, "Quit", onQuit));
     this.menuOptions.push(new MenuOption(this, 400, 450, "Logout", onLogout));
 
     this.updateMenuSelection();
 
     // Add keyboard input
-    addKeyboardInput(this, this.menuOptions, this.updateMenuSelection.bind(this));
+    addKeyboardInput(
+      this,
+      this.menuOptions,
+      this.updateMenuSelection.bind(this),
+      () => {
+        this.menuOptions[this.selectedOptionIndex].option.emit("pointerdown");
+      }
+    );
   }
 
   updateMenuSelection() {
