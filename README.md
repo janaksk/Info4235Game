@@ -23,3 +23,16 @@ http://localhost:8000/index.html
 ```
 
 ## And voila, game should open in browser. Im assuming i dont gotta explain how to connect git but if u confused just ask on the discord
+
+
+
+# Install vite
+
+```
+npm init -y
+```
+
+```
+npm install --save-dev vite phaser firebase
+```
+

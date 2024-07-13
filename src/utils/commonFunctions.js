@@ -44,6 +44,8 @@ export function handlePlayerMovement(cursors, player) {
 }
 
 export function playBackgroundMusic(scene, key, config) {
+
+    console.log('Backgorund musci playing');
     if (!scene.music) {
       scene.music = scene.sound.add(key, config);
       scene.music.play();
@@ -51,6 +53,7 @@ export function playBackgroundMusic(scene, key, config) {
   }
   
   export function playSoundEffect(scene, key, config) {
+
     if (!scene.soundEffects) {
       scene.soundEffects = [];
     }

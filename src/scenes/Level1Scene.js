@@ -44,13 +44,14 @@ class Level1Scene extends Phaser.Scene {
 
     create() {
         // Play music
-        playBackgroundMusic(this, 'track2', { volume: this.volMusic, loop: true });
+        
 
         // Putting Foreground and midground
         this.add.image(400, 300, 'sky');
         this.add.image(400, 300, 'midground');
         this.platforms = this.physics.add.staticGroup();
-        
+        console.log('create level 1');
+        playBackgroundMusic(this, 'track2', { volume: this.volMusic, loop: true });
         // Floor
         this.platforms.create(200, 553, 'ground');
         this.platforms.create(600, 553, 'ground');

@@ -15,5 +15,8 @@
     "firebase": "^10.12.3",
     "phaser": "^3.80.1",
     "vite": "^5.3.3"
+  },
+  "devDependencies": {
+    "vite-plugin-node-polyfills": "^0.22.0"
   }
 }
