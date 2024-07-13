@@ -1,0 +1,65 @@
+#registerForm {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    border: 1px solid #ccc;
+    z-index: 1000;
+    width: 300px;
+    height: auto;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
+  
+  #registerForm h2 {
+    text-align: center;
+    color: #333;
+  }
+  
+  #registerForm input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+  
+  #registerForm button {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  #registerForm button[name="loginButton"] {
+    background-color: #007BFF;
+  }
+  
+  #registerForm button[name="guestButton"] {
+    background-color: #6c757d;
+  }
+  
+  #registerForm button[name="signupButton"] {
+    background-color: #28a745;
+  }
+  
+  #registerForm button[name="registerButton"] {
+    background-color: #007BFF;
+  }
+  
+  #registerForm p {
+    text-align: center;
+    margin-top: 10px;
+    color: #6c757d;
+  }
+  
+  #registerSection {
+    display: none;
+  }
+  

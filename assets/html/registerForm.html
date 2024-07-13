@@ -1,5 +1,8 @@
-<form style="background: white; padding: 20px; border: 1px solid #ccc; z-index: 1000; width: 300px; height: auto; position: absolute;">
+<link rel="stylesheet" type="text/css" href="assets/css/registerForm.css">
+
+<form id="registerForm">
   <div id="loginSection">
+    <h2>Login</h2>
     <input type="text" name="username" placeholder="Enter your username" required>
     <input type="password" name="password" placeholder="Enter your password" required>
     <button type="button" name="loginButton">Login</button>
@@ -7,7 +10,8 @@
     <button type="button" name="signupButton">Sign Up</button>
     <p>Continue as guest, your progress won't be saved</p>
   </div>
-  <div id="registerSection" style="display: none;">
+  <div id="registerSection">
+    <h2>Sign Up</h2>
     <input type="text" name="reg_username" placeholder="Enter your username" required>
     <input type="email" name="email" placeholder="Enter your email" required>
     <input type="password" name="password" placeholder="Enter your password" required>
