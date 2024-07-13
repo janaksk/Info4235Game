@@ -25,10 +25,15 @@ const config = {
     },
     scale: {
         mode: Phaser.Scale.FIT,
-        autoCenter: Phaser.Scale.CENTER_BOTH
+        autoCenter: Phaser.Scale.CENTER_BOTH,
+        parent: 'game', // Ensure Phaser targets the correct container
+    },
+    //add dom element to display the form
+    dom: {
+        createContainer: true
     },
     //scene: [ LoadingScene, MenuScene, Level1Scene, Level2Scene, Level3Scene, Level4Scene]
-    scene: [LoadingScene,MenuScene]
+    scene: [MenuScene]
 };
 
 

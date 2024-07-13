@@ -9,7 +9,7 @@ import {
   onRegister,
 } from "../utils/menuActions.js";
 import { addKeyboardInput } from "../utils/keyboardInput.js";
-//import RegisterForm from "./RegisterForm.js";
+import RegisterForm from "./RegisterForm.js";
 
 class MenuScene extends Phaser.Scene {
   constructor() {
@@ -20,11 +20,14 @@ class MenuScene extends Phaser.Scene {
 
   preload() {
     this.load.image("menuBackground", "assets/backgrounds/sky.png");
-    this.load.html("registerForm", "assets/html/registerForm.html");
+    RegisterForm.preload(this);
+   
   }
 
   create() {
-    this.add.image(400, 300, "menuBackground");
+   // this.add.image(400, 300, "menuBackground");
+
+   //this.add.dom(400, 300).createFromCache('registerForm');
 
     this.add
       .text(400, 100, "Main Menu", { fontSize: "32px", fill: "#fff" })
@@ -64,27 +67,10 @@ class MenuScene extends Phaser.Scene {
   }
 
   showRegisterForm() {
-    const form = this.add
-      .dom(this.cameras.main.width / 2, this.cameras.main.height / 2)
-      .createFromCache("registerForm");
-    if (form) {
-      form.setVisible(true).setOrigin(0.5);
-      form.setScale(1); // Ensure the form is scaled correctly
+    const form = new RegisterForm(this, 400, 300);
+    console.log('Form element created:', form);
+}
 
-      
-
-      form.node.style.width = "300px";
-      form.node.style.height = "auto";
-      form.node.style.backgroundColor = "white"; // Ensure the background color is set to make it visible
-      form.node.style.border = "1px solid #ccc";
-      form.node.style.padding = "20px";
-      form.node.style.zIndex = "1000";
-
-      console.log("Form loaded and displayed", form);
-    } else {
-      console.log("Form failed to load");
-    }
-  }
 
   updateMenuSelection() {
     this.menuOptions.forEach((option, index) => {

@@ -16,8 +16,6 @@ class LoadingScene extends Phaser.Scene {
             fill: '#fff'
         }).setOrigin(0.5, 0.5);
 
-        //dom
-        this.load.html('registerForm', 'assets/html/registerForm.html');
 
     }
 
