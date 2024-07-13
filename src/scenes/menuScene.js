@@ -47,11 +47,6 @@ class MenuScene extends Phaser.Scene {
     this.menuOptions.push(new MenuOption(this, 400, 400, "Quit", onQuit));
     this.menuOptions.push(new MenuOption(this, 400, 450, "Logout", onLogout));
 
-    // this.add
-    //   .text(400, 500, "Register", { fontSize: "24px", fill: "#fff" })
-    //   .setOrigin(0.5)
-    //   .setInteractive({ useHandCursor: true })
-    //   .on("pointerdown", () => this.showRegisterForm());
 
     this.updateMenuSelection();
 
@@ -67,8 +62,7 @@ class MenuScene extends Phaser.Scene {
   }
 
   showRegisterForm() {
-    const form = new RegisterForm(this, this.cameras.main.width, this.cameras.main.height - 55);
-    console.log('Form element created:', form);
+    const form = new RegisterForm(this, this.cameras.main.width/2, this.cameras.main.height/2);
 }
 
 

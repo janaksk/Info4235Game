@@ -9,7 +9,7 @@ import Level4Scene from "./scenes/Level4Scene.js";
 import Level5Scene from "./scenes/Level5Scene.js";
 
 import Phaser from "phaser";
-import { domainToASCII } from "url";
+
 
 //import Level5Scene from './scenes/Level5Scene.js';
 
@@ -36,7 +36,7 @@ const config = {
     createContainer: true,
   },
   //scene: [ LoadingScene, MenuScene, Level1Scene, Level2Scene, Level3Scene, Level4Scene]
-  scene: [Level3Scene],
+  scene: [LoadingScene, MenuScene],
 };
 
 const game = new Phaser.Game(config);
