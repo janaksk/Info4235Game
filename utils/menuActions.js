@@ -1,3 +1,5 @@
+import LoginForm from "../scenes/RegisterForm.js";
+
 export function onContinue() {
     console.log("Continue clicked");
     // Add your logic here
@@ -28,3 +30,9 @@ export function onContinue() {
     // Add your logic here
   }
   
+  export function onRegister(scene, x, y) {
+    new RegisterForm(scene, x, y, (username) => {
+      console.log(`Registered as: ${username}`);
+      // Add additional logic after registration if needed
+    });
+  }
