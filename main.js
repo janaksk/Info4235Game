@@ -7,6 +7,8 @@ import Level2Scene from './scenes/Level2Scene.js';
 import Level3Scene from './scenes/Level3Scene.js';
 import Level4Scene from './scenes/Level4Scene.js';
 
+import Phaser from 'phaser';
+
 //import Level5Scene from './scenes/Level5Scene.js';
 
 const config = {
@@ -33,7 +35,7 @@ const config = {
         createContainer: true
     },
     //scene: [ LoadingScene, MenuScene, Level1Scene, Level2Scene, Level3Scene, Level4Scene]
-    scene: [MenuScene]
+    scene: [Level2Scene]
 };
 
 

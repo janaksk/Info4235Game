@@ -1,4 +1,5 @@
 import MenuOption from "../utils/menuOption.js";
+import Phaser from "phaser";
 import {
   onContinue,
   onNewGame,

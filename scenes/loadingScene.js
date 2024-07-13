@@ -1,3 +1,5 @@
+import Phaser from 'phaser';
+
 class LoadingScene extends Phaser.Scene {
     constructor() {
         super({ key: 'LoadingScene' });

@@ -1,0 +1,19 @@
+{
+  "name": "info4235game",
+  "version": "1.0.0",
+  "description": "### The game already has the necessary files for phaser included via phaser.js",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "vite",
+    "build": "vite build"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "firebase": "^10.12.3",
+    "phaser": "^3.80.1",
+    "vite": "^5.3.3"
+  }
+}

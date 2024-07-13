@@ -43,26 +43,19 @@ export function handlePlayerMovement(cursors, player) {
     }
 }
 
-let currentMusic = null;
-
-export function playBackgroundMusic(scene, key, options = {}) {
-
-    // Stop the currently playing music if there is one
-    if (currentMusic && currentMusic.isPlaying) {
-        currentMusic.stop();
+export function playBackgroundMusic(scene, key, config) {
+    if (!scene.music) {
+      scene.music = scene.sound.add(key, config);
+      scene.music.play();
     }
-
-    // Load and play the new music track
-    currentMusic = scene.sound.add(key, { volume: options.volume || 1, loop: options.loop !== undefined ? options.loop : true });
-    currentMusic.play();
-
-    return currentMusic;
-}
-
-export function playSoundEffect(scene, key, options = {}) {
-    const sfx = scene.sound.add(key, { volume: options.volume || 1 });
-    sfx.play();
-
-    return sfx;
-}
+  }
+  
+  export function playSoundEffect(scene, key, config) {
+    if (!scene.soundEffects) {
+      scene.soundEffects = [];
+    }
+    const sound = scene.sound.add(key, config);
+    scene.soundEffects.push(sound);
+    sound.play();
+  }
 
