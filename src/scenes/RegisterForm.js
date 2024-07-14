@@ -1,3 +1,5 @@
+import {signUp, login} from "../firebase/auth.js";
+
 export default class RegisterForm {
   constructor(scene, x, y) {
     this.scene = scene;
@@ -25,7 +27,9 @@ export default class RegisterForm {
 
   handleLogin() {
     const username = this.formElement.getChildByName('username').value;
+    const password = this.formElement.getChildByName('password').value;
     console.log(`Logging in as: ${username}`);
+    login(username, password);
     // Add login logic here
     this.formElement.setVisible(false);
   }
@@ -43,12 +47,15 @@ export default class RegisterForm {
   handleRegister() {
     const regUsername = this.formElement.getChildByName('reg_username').value;
     const email = this.formElement.getChildByName('email').value;
-    const password = this.formElement.getChildByName('password').value;
+    const password = this.formElement.getChildByName('passwordReg').value;
     const confirmPassword = this.formElement.getChildByName('confirmPassword').value;
 
     if (password === confirmPassword) {
+      signUp(email, password);
+      console.log(import.meta.env.VITE_FIREBASE_API_KEY);
       console.log(`Registering as: ${regUsername} with email: ${email}`);
       // Add registration logic here
+      console.log(`Log value of environment variable: ${import.meta.env.VITE_FIREBASE_API_KEY}`);
       this.formElement.setVisible(false);
     } else {
       console.log('Passwords do not match');
