@@ -34,7 +34,7 @@ const config = {
   dom: {
     createContainer: true,
   },
-  scene: [LeaderboardScene, Level2Scene, Level3Scene, Level4Scene, Level5Scene, LoadingScene],
+  scene: [LoginScene,MenuScene,Level1Scene, LeaderboardScene, Level2Scene, Level3Scene, Level4Scene, Level5Scene, LoadingScene],
 };
 
 // Create the game instance
