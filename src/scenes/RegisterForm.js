@@ -1,4 +1,5 @@
 import {signUp, login} from "../firebase/auth.js";
+import { auth } from "../firebase/firebaseConfig.js";
 
 export default class RegisterForm {
   constructor(scene, x, y) {
@@ -29,13 +30,21 @@ export default class RegisterForm {
     const username = this.formElement.getChildByName('username').value;
     const password = this.formElement.getChildByName('password').value;
     console.log(`Logging in as: ${username}`);
-    login(username, password);
+    login(username, password).then(() => {
+      console.log('Logged in successfully');
+      this.scene.scene.start('MenuScene', {user: auth.currentUser});
+    }
+    ).catch((error) => {
+      console.error('Error logging in:', error);
+    }
+    );
     // Add login logic here
     this.formElement.setVisible(false);
   }
 
   handleGuest() {
     console.log('Continuing as guest');
+    this.scene.scene.start('MenuScene', {user: null});
     this.formElement.setVisible(false);
   }
 
@@ -50,8 +59,16 @@ export default class RegisterForm {
     const password = this.formElement.getChildByName('passwordReg').value;
     const confirmPassword = this.formElement.getChildByName('confirmPassword').value;
 
+
     if (password === confirmPassword) {
-      signUp(email, password);
+      signUp(email, password, regUsername).then(() => {
+        console.log('Registered successfully');
+        this.scene.scene.start('MenuScene', {user: auth.currentUser});
+      }
+      ).catch((error) => {
+        console.error('Error registering:', error);
+      }
+      );
       console.log(import.meta.env.VITE_FIREBASE_API_KEY);
       console.log(`Registering as: ${regUsername} with email: ${email}`);
       // Add registration logic here

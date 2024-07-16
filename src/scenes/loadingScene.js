@@ -34,7 +34,7 @@ class LoadingScene extends Phaser.Scene {
 
         // Wait for 5 seconds (the duration of the fake loading) before transitioning to the menu
         this.time.delayedCall(2000, () => {
-            this.scene.start('MenuScene');
+            this.scene.start('LoginScene');
         });
     }
 }

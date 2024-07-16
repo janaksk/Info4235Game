@@ -10,27 +10,34 @@ import {
   onRegister,
 } from "../utils/menuActions.js";
 import { addKeyboardInput } from "../utils/keyboardInput.js";
-import RegisterForm from "./RegisterForm.js";
+import { auth } from "../firebase/firebaseConfig.js";
 
 class MenuScene extends Phaser.Scene {
   constructor() {
     super({ key: "MenuScene" });
     this.menuOptions = [];
     this.selectedOptionIndex = 0;
+    this.user = null;
+  }
+
+  init(data) {
+    this.user = auth.currentUser ? auth.currentUser : null;
   }
 
   preload() {
     this.load.image("menuBackground", "assets/backgrounds/sky.png");
-    RegisterForm.preload(this);
-   
   }
 
   create() {
-
-    this.showRegisterForm();
+    console.log(this.user);
 
     this.add
-      .text(400, 100, "Main Menu", { fontSize: "32px", fill: "#fff" })
+      .text(
+        400,
+        100,
+        `Main Menu - Welcome ${this.user ? this.user.email : "Guest"}`,
+        { fontSize: "32px", fill: "#fff" }
+      )
       .setOrigin(0.5);
 
     // Create menu options
@@ -38,7 +45,9 @@ class MenuScene extends Phaser.Scene {
       new MenuOption(this, 400, 200, "Continue", onContinue)
     );
     this.menuOptions.push(
-      new MenuOption(this, 400, 250, "New Game", onNewGame)
+      new MenuOption(this, 400, 250, "New Game", () => {
+        this.scene.start("Level1Scene", { user: this.user });
+      })
     );
     this.menuOptions.push(new MenuOption(this, 400, 300, "Level", onLevel));
     this.menuOptions.push(
@@ -46,7 +55,6 @@ class MenuScene extends Phaser.Scene {
     );
     this.menuOptions.push(new MenuOption(this, 400, 400, "Quit", onQuit));
     this.menuOptions.push(new MenuOption(this, 400, 450, "Logout", onLogout));
-
 
     this.updateMenuSelection();
 
@@ -60,11 +68,6 @@ class MenuScene extends Phaser.Scene {
       }
     );
   }
-
-  showRegisterForm() {
-    const form = new RegisterForm(this, this.cameras.main.width/2, this.cameras.main.height/2);
-}
-
 
   updateMenuSelection() {
     this.menuOptions.forEach((option, index) => {
