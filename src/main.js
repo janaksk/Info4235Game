@@ -1,4 +1,4 @@
-import Phaser from 'phaser';
+import Phaser, { Scene } from 'phaser';
 import LoadingScene from './scenes/loadingScene.js';
 import MenuScene from './scenes/menuScene.js';
 import LoginScene from './scenes/LoginScene.js';
@@ -24,7 +24,7 @@ const config = {
     },
   },
   audio: {
-    disableWebAudio: true,
+    disableWebAudio: false,
   },
   scale: {
     mode: Phaser.Scale.FIT,
@@ -34,8 +34,12 @@ const config = {
   dom: {
     createContainer: true,
   },
-  scene: [LoginScene,MenuScene,Level1Scene, LeaderboardScene, Level2Scene, Level3Scene, Level4Scene, Level5Scene, LoadingScene],
+  //scene: [LoginScene,MenuScene,Level1Scene, LeaderboardScene, Level2Scene, Level3Scene, Level4Scene, Level5Scene, LoadingScene],
+
+  scene:[Level3Scene]
 };
+
+
 
 // Create the game instance
 const game = new Phaser.Game(config);

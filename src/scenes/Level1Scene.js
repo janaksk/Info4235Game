@@ -38,6 +38,10 @@ class Level1Scene extends BaseLevelScene {
         .refreshBody();
     });
   }
+
+  createPlayer() {
+    super.createPlayer(100, 500);  // Override with specific coordinates for Level 2
+  }
 }
 
 export default Level1Scene;

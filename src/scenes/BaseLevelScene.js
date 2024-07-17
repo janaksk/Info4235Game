@@ -29,20 +29,28 @@ import {
         frameWidth: 32,
         frameHeight: 48,
       });
+      this.load.image('wall', 'assets/level1to5/verticalplat.png');
       this.load.audio("starCollected", "assets/sfx/star_collected.mp3");
       this.load.audio("jumpSound", "assets/sfx/jump.mp3");
+          // Background Assets
+    this.load.image('sky', 'assets/backgrounds/tree.png');
+    this.load.atlas('tiles', 'assets/platformer.png', 'assets/platformer.json');
+    // SFX Assets
+
+    this.load.audio('waterSplash', 'assets/sfx/water_splash.mp3');
     }
-  
+    
     create() {
       this.add.image(400, 300, "sky");
       this.add.image(400, 300, "midground");
       this.platforms = this.physics.add.staticGroup();
-  
+      this.stars = this.physics.add.staticGroup();
+      this.createPlayer();
       this.createPlatforms();
-      this.player = createPlayer(this, 100, 450);
+    
   
       this.cursors = this.input.keyboard.createCursorKeys();
-      this.stars = this.physics.add.staticGroup();
+    
       this.createStars();
   
       this.score = 0;
@@ -88,6 +96,11 @@ import {
     createStars() {
       // To be overridden by specific level scenes
     }
+
+    createPlayer(x, y) {
+      this.player = createPlayer(this, x, y);
+    }
+    
   
     updateTimer() {
       this.timeElapsed += 10;
