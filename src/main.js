@@ -20,8 +20,8 @@ const config = {
     default: 'arcade',
     arcade: {
       gravity: { y: 300 },
-      debug: true,
-      
+      debug: false,
+
     },
   },
   audio: {
@@ -38,7 +38,7 @@ const config = {
   },
   //scene: [LoginScene,MenuScene,Level1Scene, LeaderboardScene, Level2Scene, Level3Scene, Level4Scene, Level5Scene, LoadingScene],
 
-  scene:[Level4Scene]
+  scene:[Level5Scene]
 };
 
 
