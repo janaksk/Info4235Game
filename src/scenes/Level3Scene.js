@@ -11,9 +11,7 @@ class Level3Scene extends BaseLevelScene {
     this.load.image('sky', 'assets/backgrounds/tree.png');
     this.load.atlas('tiles', 'assets/platformer.png', 'assets/platformer.json');
 
-    // Environment Assets
-    this.load.image('ground', 'assets/level1to5/platform.png');
-    this.load.image('wall', 'assets/level1to5/verticalplat.png');
+   
 
     // Entity Assets
     this.load.image('star', 'assets/star.png');
@@ -27,6 +25,7 @@ class Level3Scene extends BaseLevelScene {
 
   createPlatforms() {
     // Water
+    
     this.water = this.physics.add.staticGroup();
 
     // Water Tiles

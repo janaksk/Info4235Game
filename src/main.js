@@ -20,12 +20,14 @@ const config = {
     default: 'arcade',
     arcade: {
       gravity: { y: 300 },
-      debug: false,
+      debug: true,
+      
     },
   },
   audio: {
     disableWebAudio: false,
   },
+
   scale: {
     mode: Phaser.Scale.FIT,
     autoCenter: Phaser.Scale.CENTER_BOTH,
@@ -36,7 +38,7 @@ const config = {
   },
   //scene: [LoginScene,MenuScene,Level1Scene, LeaderboardScene, Level2Scene, Level3Scene, Level4Scene, Level5Scene, LoadingScene],
 
-  scene:[Level3Scene]
+  scene:[Level4Scene]
 };
 
 

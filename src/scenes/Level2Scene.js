@@ -5,6 +5,8 @@ class Level2Scene extends BaseLevelScene {
     super('Level2Scene');
   }
 
+  
+
   createPlatforms() {
     // Floor
     

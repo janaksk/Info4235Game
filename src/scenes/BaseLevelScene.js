@@ -17,12 +17,15 @@ import {
       this.userId = auth.currentUser ? auth.currentUser.uid : null;
       this.level = data.level || 'UnknownLevel';
       this.nextScene = data.nextScene || 'MainMenuScene';
+      this.includeMidground = data.includeMidground || false;
+   
     }
   
     preload() {
       // Common assets
       this.load.image("sky", "assets/backgrounds/sky.png");
       this.load.image("midground", "assets/backgrounds/midground.png");
+      this.load.image('rocket', 'assets/rocket.png');
       this.load.image("ground", "assets/level1to5/platform.png");
       this.load.image("star", "assets/star.png");
       this.load.spritesheet("dude", "assets/dude.png", {
@@ -42,7 +45,9 @@ import {
     
     create() {
       this.add.image(400, 300, "sky");
-      this.add.image(400, 300, "midground");
+      if (this.includeMidground) {
+        this.add.image(400, 300, "midground");
+      }
       this.platforms = this.physics.add.staticGroup();
       this.stars = this.physics.add.staticGroup();
       this.createPlayer();

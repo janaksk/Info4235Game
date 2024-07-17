@@ -5,6 +5,11 @@ class Level1Scene extends BaseLevelScene {
     super('Level1Scene');
   }
 
+  init(data) {
+    super.init({...data, includeMidground: true});
+    this.nextScene = 'Level2Scene';
+  }
+
   createPlatforms() {
     this.platforms.create(200, 553, "ground");
     this.platforms.create(600, 553, "ground");
