@@ -1,15 +1,28 @@
-import {  ref, query, orderByChild, limitToFirst, get, orderByValue, equalTo } from "firebase/database";
+import {
+  ref,
+  query,
+  orderByChild,
+  limitToFirst,
+  get,
+  orderByValue,
+  equalTo,
+} from "firebase/database";
 import { auth, db } from "../firebase/firebaseConfig.js";
-
-
+import { getUserNames } from "../firebase/auth.js";
 
 class LeaderboardScene extends Phaser.Scene {
   constructor() {
     super({ key: "LeaderboardScene" });
   }
 
+  init(data) {
+    this.cameras.main.fadeIn(800);
+  }
+
   async create() {
-    this.add.text(400, 50, "Leaderboard", { fontSize: "32px", fill: "#789" }).setOrigin(0.5);
+    this.add
+      .text(400, 50, "Leaderboard", { fontSize: "32px", fill: "#789" })
+      .setOrigin(0.5);
 
     const level = "Level1"; // Change this to the appropriate level key
     const leaderboard = await this.getLeaderboard(level);
@@ -17,13 +30,25 @@ class LeaderboardScene extends Phaser.Scene {
 
     let yPosition = 100;
     leaderboard.forEach((entry, index) => {
-      this.add.text(400, yPosition, `${index + 1}. ${entry.userId}: ${this.formatTime(entry.time)}`, { fontSize: "24px", fill: "#789" }).setOrigin(0.5);
+      this.add
+        .text(
+          400,
+          yPosition,
+          `${index + 1}. ${entry.username}: ${this.formatTime(entry.time)}`,
+          { fontSize: "24px", fill: "#789" }
+        )
+        .setOrigin(0.5);
       yPosition += 30;
     });
 
     // Display current player's rank if they are not in the top 10
     if (playerRank > 10) {
-      this.add.text(400, yPosition + 30, `Your Rank: ${playerRank}`, { fontSize: "24px", fill: "#000" }).setOrigin(0.5);
+      this.add
+        .text(400, yPosition + 30, `Your Rank: ${playerRank}`, {
+          fontSize: "24px",
+          fill: "#000",
+        })
+        .setOrigin(0.5);
     }
   }
 
@@ -32,11 +57,26 @@ class LeaderboardScene extends Phaser.Scene {
     const q = query(leaderboardRef, orderByChild("time"), limitToFirst(10));
     const snapshot = await get(q);
     const leaderboard = [];
+    const userIds = new Set();
+
     snapshot.forEach((childSnapshot) => {
-      leaderboard.push(childSnapshot.val());
+      const entry = childSnapshot.val();
+      leaderboard.push(entry);
+      userIds.add(entry.userId);
     });
+
+    console.log(userIds);
+    const usersNames = await getUserNames(userIds);
+  
+
+    leaderboard.forEach((entry) => {
+      entry.username = usersNames[entry.userId] || "Unknown User";
+    });
+
     return leaderboard;
   }
+
+  
 
   async getPlayerRank(level, userId) {
     const leaderboardRef = ref(db, `leaderboard/${level}`);
@@ -62,7 +102,10 @@ class LeaderboardScene extends Phaser.Scene {
     let seconds = Math.floor(totalMilliseconds / 1000);
     let remainingMilliseconds = totalMilliseconds % 1000;
 
-    return `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}:${String(remainingMilliseconds).padStart(3, '0')}`;
+    return `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(
+      2,
+      "0"
+    )}:${String(remainingMilliseconds).padStart(3, "0")}`;
   }
 }
 

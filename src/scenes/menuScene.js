@@ -11,6 +11,7 @@ import {
 } from "../utils/menuActions.js";
 import { addKeyboardInput } from "../utils/keyboardInput.js";
 import { auth } from "../firebase/firebaseConfig.js";
+import { getLoggedUserName } from "../firebase/auth.js";
 
 class MenuScene extends Phaser.Scene {
   constructor() {
@@ -18,10 +19,15 @@ class MenuScene extends Phaser.Scene {
     this.menuOptions = [];
     this.selectedOptionIndex = 0;
     this.user = null;
+    this.userName = "Guest";
   }
 
-  init(data) {
+  async init(data) {
     this.user = auth.currentUser ? auth.currentUser : null;
+   
+    if (this.user) {
+      this.userName= await getLoggedUserName(this.user.uid);
+    }
   }
 
   preload() {
@@ -29,13 +35,12 @@ class MenuScene extends Phaser.Scene {
   }
 
   create() {
-    console.log(this.user);
 
     this.add
       .text(
         400,
         100,
-        `Main Menu - Welcome ${this.user ? this.user.email : "Guest"}`,
+        `Main Menu - Welcome ${this.user ? this.user : "Guest"}`,
         { fontSize: "32px", fill: "#fff" }
       )
       .setOrigin(0.5);
@@ -46,7 +51,7 @@ class MenuScene extends Phaser.Scene {
     );
     this.menuOptions.push(
       new MenuOption(this, 400, 250, "New Game", () => {
-        this.scene.start("Level2Scene", { level: "Level2" });
+        this.scene.start("Leaderboard", { level: "Level1" });
       })
     );
     this.menuOptions.push(new MenuOption(this, 400, 300, "Level", onLevel));
