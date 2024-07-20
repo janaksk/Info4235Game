@@ -1,5 +1,6 @@
 import {signUp, login} from "../firebase/auth.js";
 import { auth } from "../firebase/firebaseConfig.js";
+import { validateEmail, validatePassword } from "../utils/dataValidation.js";
 
 export default class RegisterForm {
   constructor(scene, x, y) {
@@ -26,21 +27,38 @@ export default class RegisterForm {
     });
   }
 
-  handleLogin() {
-    const username = this.formElement.getChildByName('username').value;
-    const password = this.formElement.getChildByName('password').value;
-    console.log(`Logging in as: ${username}`);
-    login(username, password).then(() => {
-      console.log('Logged in successfully');
-      this.scene.scene.start('MenuScene', {user: auth.currentUser});
-    }
-    ).catch((error) => {
-      console.error('Error logging in:', error);
-    }
-    );
-    // Add login logic here
-    this.formElement.setVisible(false);
+  sanitizeInput(input) {
+    const div = document.createElement('div');
+    div.textContent = input;
+    return div.innerHTML;
   }
+
+  async handleLogin() {
+    const username = this.sanitizeInput(this.formElement.getChildByName('username').value);
+    const password = this.sanitizeInput(this.formElement.getChildByName('password').value);
+  
+    if (!username || !password) {
+      document.getElementById('loginError').innerText = 'Please fill in both fields.';
+      return;
+    }
+  
+    console.log(`Logging in as: ${username}`);
+    login(username, password)
+      .then((user) => {
+        console.log('Logged in successfully');
+        this.scene.scene.start('MenuScene', {user: user});
+      })
+      .catch((error) => {
+        console.error('Error logging in:', error);
+        document.getElementById('loginError').innerText = 'Incorrect username or password.';
+      });
+
+      
+    
+   
+
+  }
+  
 
   handleGuest() {
     console.log('Continuing as guest');
@@ -53,29 +71,42 @@ export default class RegisterForm {
     document.getElementById('registerSection').style.display = 'block';
   }
 
-  handleRegister() {
-    const regUsername = this.formElement.getChildByName('reg_username').value;
-    const email = this.formElement.getChildByName('email').value;
-    const password = this.formElement.getChildByName('passwordReg').value;
-    const confirmPassword = this.formElement.getChildByName('confirmPassword').value;
+  async handleRegister() {
+    const regUsername = this.sanitizeInput(this.formElement.getChildByName('reg_username').value);
+    const email = this.sanitizeInput(this.formElement.getChildByName('email').value);
+    const password = this.sanitizeInput(this.formElement.getChildByName('passwordReg').value);
+    const confirmPassword = this.sanitizeInput(this.formElement.getChildByName('confirmPassword').value);
 
+    if (!regUsername || !email || !password || !confirmPassword) {
+      document.getElementById('registerError').innerText = 'Please fill in all fields.';
+      return;
+    }
 
+    if (!validateEmail(email)) {
+      document.getElementById('registerError').innerText = 'Invalid email address.';
+      return;
+    }
+
+    if (!validatePassword(password)) {
+      document.getElementById('registerError').innerText = 'Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, and one number.';
+      return;
+    }
+
+    
     if (password === confirmPassword) {
-      signUp(email, password, regUsername).then(() => {
+      signUp(email, password, regUsername).then((user) => {
         console.log('Registered successfully');
-        this.scene.scene.start('MenuScene', {user: auth.currentUser});
+        this.scene.scene.start('MenuScene', {user: user});
       }
       ).catch((error) => {
         console.error('Error registering:', error);
+        document.getElementById('registerError').innerText = 'Error registering. Email already in use.';
       }
       );
-      console.log(import.meta.env.VITE_FIREBASE_API_KEY);
-      console.log(`Registering as: ${regUsername} with email: ${email}`);
-      // Add registration logic here
-      console.log(`Log value of environment variable: ${import.meta.env.VITE_FIREBASE_API_KEY}`);
-      this.formElement.setVisible(false);
+     
+    
     } else {
-      console.log('Passwords do not match');
+      document.getElementById('registerError').innerText = 'Passwords do not match.';
     }
   }
 
