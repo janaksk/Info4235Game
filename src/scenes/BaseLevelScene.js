@@ -6,6 +6,7 @@ import {
   
   import { auth } from "../firebase/firebaseConfig.js";
 import { saveCompletionTime, } from "../firebase/firebaseUtil.js";
+import { formatTime } from "../utils/formatTime.js";
   
   class BaseLevelScene extends Phaser.Scene {
     constructor(key) {
@@ -111,14 +112,7 @@ import { saveCompletionTime, } from "../firebase/firebaseUtil.js";
   
     updateTimer() {
       this.timeElapsed += 10;
-      let totalMilliseconds = this.timeElapsed;
-      let minutes = Math.floor(totalMilliseconds / 60000);
-      totalMilliseconds %= 60000;
-      let seconds = Math.floor(totalMilliseconds / 1000);
-      let milliseconds = totalMilliseconds % 1000;
-  
-      let formattedTime = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}:${String(milliseconds).padStart(3, '0')}`;
-      this.timerText.setText(`Time: ${formattedTime}`);
+      this.timerText.setText(`Time: ${formatTime(this.timeElapsed)}`);
     }
   
     async collectStar(player, star) {

@@ -9,6 +9,7 @@ import {
 } from "firebase/database";
 import { auth, db } from "../firebase/firebaseConfig.js";
 import { getUserNames } from "../firebase/auth.js";
+import { formatTime } from "../utils/formatTime.js";
 
 class LeaderboardScene extends Phaser.Scene {
   constructor() {
@@ -36,7 +37,7 @@ class LeaderboardScene extends Phaser.Scene {
         .text(
           400,
           yPosition,
-          `${index + 1}. ${entry.username}: ${this.formatTime(entry.time)}`,
+          `${index + 1}. ${entry.username}: ${formatTime(entry.time)}`,
           { fontSize: "24px", fill: "#789" }
         )
         .setOrigin(0.5);
@@ -105,18 +106,18 @@ class LeaderboardScene extends Phaser.Scene {
     return playerRank;
   }
 
-  formatTime(milliseconds) {
-    let totalMilliseconds = milliseconds;
-    let minutes = Math.floor(totalMilliseconds / 60000);
-    totalMilliseconds %= 60000;
-    let seconds = Math.floor(totalMilliseconds / 1000);
-    let remainingMilliseconds = totalMilliseconds % 1000;
+  // formatTime(milliseconds) {
+  //   let totalMilliseconds = milliseconds;
+  //   let minutes = Math.floor(totalMilliseconds / 60000);
+  //   totalMilliseconds %= 60000;
+  //   let seconds = Math.floor(totalMilliseconds / 1000);
+  //   let remainingMilliseconds = totalMilliseconds % 1000;
 
-    return `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(
-      2,
-      "0"
-    )}:${String(remainingMilliseconds).padStart(3, "0")}`;
-  }
+  //   return `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(
+  //     2,
+  //     "0"
+  //   )}:${String(remainingMilliseconds).padStart(3, "0")}`;
+  // }
 }
 
 export default LeaderboardScene;
