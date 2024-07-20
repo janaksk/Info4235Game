@@ -4,8 +4,8 @@ import {
     playSoundEffect,
   } from "../utils/commonFunctions.js";
   
-  import { auth, db } from "../firebase/firebaseConfig.js";
-  import { ref, push } from "firebase/database";
+  import { auth } from "../firebase/firebaseConfig.js";
+import { saveCompletionTime, } from "../firebase/firebaseUtil.js";
   
   class BaseLevelScene extends Phaser.Scene {
     constructor(key) {
@@ -15,9 +15,10 @@ import {
     init(data) {
       this.cameras.main.fadeIn(800);
       this.userId = auth.currentUser ? auth.currentUser.uid : null;
-      this.level = data.level || 'UnknownLevel';
+      this.level = data.level || 'Level1';
       this.nextScene = data.nextScene || 'MainMenuScene';
       this.includeMidground = data.includeMidground || false;
+      
    
     }
   
@@ -44,6 +45,7 @@ import {
     }
     
     create() {
+      
       this.add.image(400, 300, "sky");
       if (this.includeMidground) {
         this.add.image(400, 300, "midground");
@@ -128,30 +130,19 @@ import {
       if (this.score === 10) {
         const completionTime = this.timeElapsed;
         const userId = this.userId;
-        await this.saveCompletionTime(this.level, userId, completionTime);
+        await saveCompletionTime(this.level, userId, completionTime);
   
         this.cameras.main.fadeOut(800);
         this.time.delayedCall(
           800,
-          () => this.scene.start("LeaderboardScene", { level: this.level }),
+          () => this.scene.start("LeaderboardScene", { level: this.level ,nextScene: this.nextScene}),
           [],
           this
         );
       }
     }
   
-    async saveCompletionTime(level, userId, time) {
-      try {
-        const leaderboardRef = ref(db, `leaderboard/${level}`);
-        await push(leaderboardRef, {
-          userId: userId,
-          time: time
-        });
-        console.log("Completion time saved to Realtime Database");
-      } catch (e) {
-        console.error("Error saving completion time: ", e);
-      }
-    }
+    
   }
   
   export default BaseLevelScene;

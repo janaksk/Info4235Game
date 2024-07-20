@@ -6,8 +6,7 @@ class Level1Scene extends BaseLevelScene {
   }
 
   init(data) {
-    super.init({...data, includeMidground: true});
-    this.nextScene = 'Level2Scene';
+    super.init({...data, includeMidground: true, nextScene: 'Level2Scene',});
   }
 
   createPlatforms() {

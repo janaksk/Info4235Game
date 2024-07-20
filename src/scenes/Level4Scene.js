@@ -12,7 +12,7 @@ class Level4Scene extends BaseLevelScene {
   }
 
   init(data) {
-    super.init({ ...data, includeMidground: true, rocketSpeed: 200 });
+    super.init({ ...data, includeMidground: true, rocketSpeed: 200, nextScene: 'Level5Scene' });
   }
 
   createPlatforms() {

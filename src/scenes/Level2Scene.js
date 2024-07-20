@@ -5,12 +5,15 @@ class Level2Scene extends BaseLevelScene {
     super('Level2Scene');
   }
 
+  init(data) {
+    super.init({...data, includeMidground: true, nextScene: 'Level3Scene',});
+  }
+
   
 
   createPlatforms() {
     // Floor
     
-
     this.platforms.create(200, 553, 'ground');
     this.platforms.create(600, 553, 'ground');
     this.platforms.create(200, 585, 'ground');

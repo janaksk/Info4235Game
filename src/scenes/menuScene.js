@@ -51,7 +51,7 @@ class MenuScene extends Phaser.Scene {
     );
     this.menuOptions.push(
       new MenuOption(this, 400, 250, "New Game", () => {
-        this.scene.start("Leaderboard", { level: "Level1" });
+        this.scene.start("Level1Scene", { level: "Level1" });
       })
     );
     this.menuOptions.push(new MenuOption(this, 400, 300, "Level", onLevel));

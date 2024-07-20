@@ -6,6 +6,10 @@ class Level3Scene extends BaseLevelScene {
     super('Level3Scene');
   }
 
+  init(data) {
+    super.init({ ...data, includeMidground: false, nextScene: 'Level4Scene' });
+  }
+
   preload() {
     // Background Assets
     this.load.image('sky', 'assets/backgrounds/tree.png');
