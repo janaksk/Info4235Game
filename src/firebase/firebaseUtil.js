@@ -7,6 +7,7 @@ import {
   orderByChild,
   equalTo,
     set,
+    update,
 } from "firebase/database";
 
 export async function saveCompletionTime(level, userId, time) {
@@ -45,5 +46,34 @@ async function checkPrevTiming(level, userId) {
   } catch (e) {
     console.error("Error checking previous timing: ", e);
     return null;
+  }
+}
+
+export async function getLastClearedLevel(userId) {
+  try {
+    const userRef = ref(db, `users/${userId}`);
+    const snapshot = await get(userRef);
+    if (snapshot.exists()) {
+      const user = snapshot.val();
+      return user.lastClearedLevel;
+    } else {
+      console.log("No data available for user:", userId);
+      return 0; // Default to level 0 if no data is available
+    }
+  } catch (e) {
+    console.error("Error getting last cleared level: ", e);
+    return 0; // Default to level 0 on error
+  }
+}
+
+export async function setLastClearedLevel(userId, level) {
+  try {
+    const userRef = ref(db, `users/${userId}`);
+    await update(userRef, {
+      lastClearedLevel: level,
+    });
+    console.log("Last cleared level saved to Firestore");
+  } catch (e) {
+    console.error("Error saving last cleared level: ", e);
   }
 }

@@ -3,8 +3,8 @@ import {
   handlePlayerMovement,
   playSoundEffect,
 } from "../utils/commonFunctions.js";
-import { auth } from "../firebase/firebaseConfig.js";
-import { saveCompletionTime } from "../firebase/firebaseUtil.js";
+//import { auth } from "../firebase/firebaseConfig.js";
+import { saveCompletionTime, setLastClearedLevel } from "../firebase/firebaseUtil.js";
 import { formatTime } from "../utils/formatTime.js";
 
 class BaseLevelScene extends Phaser.Scene {
@@ -14,10 +14,12 @@ class BaseLevelScene extends Phaser.Scene {
 
   init(data) {
     this.cameras.main.fadeIn(800);
-    this.userId = auth.currentUser ? auth.currentUser.uid : null;
-    this.level = data.level || "Level1";
+    this.user = data.user;
+
+    this.level = data.level;
     this.nextScene = data.nextScene || "MainMenuScene";
     this.includeMidground = data.includeMidground || false;
+    console.log(`User: ${this.user.uid} Level: ${this.level} Next Scene: ${this.nextScene}`);
   }
 
   preload() {
@@ -116,9 +118,13 @@ class BaseLevelScene extends Phaser.Scene {
     this.scoreText.setText(`Score: ${this.score} /10`);
 
     if (this.score === 1) {
-      const completionTime = this.timeElapsed;
-      const userId = this.userId;
-      await saveCompletionTime(this.level, userId, completionTime);
+      if (!this.user) {
+        this.scene.start(this.nextScene, { user: null });
+      }
+      else{
+        const completionTime = this.timeElapsed;
+      await saveCompletionTime(this.level, this.user.uid, completionTime);
+      await setLastClearedLevel(this.user.uid, ((this.nextScene).split("Level")[1]).split("Scene")[0]);  
 
       this.cameras.main.fadeOut(800);
       this.time.delayedCall(
@@ -127,10 +133,12 @@ class BaseLevelScene extends Phaser.Scene {
           this.scene.start("LeaderboardScene", {
             level: this.level,
             nextScene: this.nextScene,
+            user: this.user,
           }),
         [],
         this
       );
+      }
     }
   }
 }

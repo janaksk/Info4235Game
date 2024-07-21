@@ -18,6 +18,7 @@ const signUp = async (email, password, username) => {
     await set(ref(db, "users/" + user.uid), {
       username: username,
       email: email,
+      lastClearedLevel: 1,
     });
 
     console.log("User data saved to Firestore");
@@ -41,6 +42,15 @@ const login = async (email, password) => {
     throw error;
   }
 };
+
+export async function logOut() {
+  try {
+    await auth.signOut();
+    console.log("Logged out");
+  } catch (error) {
+    throw error;
+  }
+}
 
 export async function getUserNames(userIds) {
   const userNames = {};

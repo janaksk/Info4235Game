@@ -62,7 +62,7 @@ export default class RegisterForm {
 
   handleGuest() {
     console.log('Continuing as guest');
-    this.scene.scene.start('MenuScene', {user: null});
+    this.scene.scene.start('Level1Scene', {user: null});
     this.formElement.setVisible(false);
   }
 
@@ -96,7 +96,12 @@ export default class RegisterForm {
     if (password === confirmPassword) {
       signUp(email, password, regUsername).then((user) => {
         console.log('Registered successfully');
-        this.scene.scene.start('MenuScene', {user: user});
+        document.getElementById('registerError').innerText = 'Registered successfully, you will be redirected to the login page.';
+
+        setTimeout(() => {
+          this.scene.scene.start('LoginScene');
+        }, 3000);
+        
       }
       ).catch((error) => {
         console.error('Error registering:', error);

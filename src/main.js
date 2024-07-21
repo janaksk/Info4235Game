@@ -54,3 +54,12 @@ window.addEventListener('beforeunload', () => {
     console.error('Error signing out:', error);
   });
 });
+
+// Log out the user when the window is refreshed
+window.addEventListener('unload', () => {
+  signOut(auth).then(() => {
+    console.log('User signed out.');
+  }).catch((error) => {
+    console.error('Error signing out:', error);
+  });
+});

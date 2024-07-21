@@ -18,6 +18,7 @@ class LeaderboardScene extends Phaser.Scene {
 
   init(data) {
     this.cameras.main.fadeIn(800);
+    this.user = data.user;
     this.level = data.level;
     this.nextScene = data.nextScene || "MenuScene";
     console.log(`insiie init ${this.level}, ${this.nextScene}`);
@@ -29,7 +30,7 @@ class LeaderboardScene extends Phaser.Scene {
       .setOrigin(0.5);
 
     const leaderboard = await this.getLeaderboard(this.level);
-    const playerRank = await this.getPlayerRank(this.level, auth.currentUser.uid);
+    const playerRank = await this.getPlayerRank(this.level, this.user.uid);
 
     let yPosition = 100;
     leaderboard.forEach((entry, index) => {
@@ -56,7 +57,7 @@ class LeaderboardScene extends Phaser.Scene {
 
     this.time.delayedCall(
       8000,
-      () => this.scene.start(this.nextScene, { level: this.nextScene.split("Scene")[0] }),
+      () => this.scene.start(this.nextScene, { level: this.nextScene.split("Scene")[0], user: this.user }),
       [],
       this
     );

@@ -2,12 +2,8 @@ import MenuOption from "../utils/menuOption.js";
 import Phaser from "phaser";
 import {
   onContinue,
-  onNewGame,
-  onLevel,
-  onSettings,
-  onQuit,
+  gameLeaderBoard,
   onLogout,
-  onRegister,
 } from "../utils/menuActions.js";
 import { addKeyboardInput } from "../utils/keyboardInput.js";
 import { auth } from "../firebase/firebaseConfig.js";
@@ -18,21 +14,20 @@ class MenuScene extends Phaser.Scene {
     super({ key: "MenuScene" });
     this.menuOptions = [];
     this.selectedOptionIndex = 0;
-    this.user = null;
-    this.userName = "Guest";
+
+
   }
 
-  async init(data) {
-    this.user = auth.currentUser ? auth.currentUser : null;
-   
-    if (this.user) {
-      this.userName= await getLoggedUserName(this.user.uid);
-    }
+  init(data) {
+    console.log(data.user.uid);
+    this.user = data.user;
   }
 
   preload() {
     this.load.image("menuBackground", "assets/backgrounds/sky.png");
   }
+
+
 
   create() {
 
@@ -40,25 +35,24 @@ class MenuScene extends Phaser.Scene {
       .text(
         400,
         100,
-        `Main Menu - Welcome ${this.user ? this.user : "Guest"}`,
+        `Main Menu - Welcome ${this.user.email}`,
         { fontSize: "32px", fill: "#fff" }
       )
       .setOrigin(0.5);
 
     // Create menu options
     this.menuOptions.push(
-      new MenuOption(this, 400, 200, "Continue", onContinue)
-    );
+      new MenuOption(this, 400, 200, "Continue", this.handleContinue.bind(this))  );
     this.menuOptions.push(
       new MenuOption(this, 400, 250, "New Game", () => {
-        this.scene.start("Level1Scene", { level: "Level1" });
+        this.scene.start("Level1Scene", { level: "Level1", user: this.user });
       })
     );
-    this.menuOptions.push(new MenuOption(this, 400, 300, "Level", onLevel));
+ 
     this.menuOptions.push(
-      new MenuOption(this, 400, 350, "Settings", onSettings)
+      new MenuOption(this, 400, 350, "Leaderboard", gameLeaderBoard)
     );
-    this.menuOptions.push(new MenuOption(this, 400, 400, "Quit", onQuit));
+
     this.menuOptions.push(new MenuOption(this, 400, 450, "Logout", onLogout));
 
     this.updateMenuSelection();
@@ -72,6 +66,15 @@ class MenuScene extends Phaser.Scene {
         this.menuOptions[this.selectedOptionIndex].option.emit("pointerdown");
       }
     );
+  }
+
+  async handleContinue() {
+    if (this.user) {
+      await onContinue(this.user.uid, this);
+    } else {
+      console.log("No authenticated user found");
+     
+    }
   }
 
   updateMenuSelection() {
