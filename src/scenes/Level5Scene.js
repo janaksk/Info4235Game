@@ -12,7 +12,7 @@ class Level5Scene extends BaseLevelScene {
   }
 
   init(data) {
-    super.init({ ...data, includeMidground: true, playerStartX: 100, playerStartY: 450 });
+    super.init({ ...data, includeMidground: true, nextScene: 'Level6Scene', playerStartX: 100, playerStartY: 450 });
   }
 
   createPlatforms() {

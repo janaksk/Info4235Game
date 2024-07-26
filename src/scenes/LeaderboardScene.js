@@ -38,7 +38,7 @@ class LeaderboardScene extends Phaser.Scene {
         .text(
           400,
           yPosition,
-          `${index + 1}. ${entry.username}: ${formatTime(entry.time)}`,
+          `${index + 1}. ${entry.userId}: ${formatTime(entry.time)}`,
           { fontSize: "24px", fill: "#789" }
         )
         .setOrigin(0.5);
@@ -69,20 +69,24 @@ class LeaderboardScene extends Phaser.Scene {
     const q = query(leaderboardRef, orderByChild("time"), limitToFirst(10));
     const snapshot = await get(q);
     const leaderboard = [];
-    const userIds = new Set();
+    const userIds = new Set();//set is a collection of unique values
 
     snapshot.forEach((childSnapshot) => {
       const entry = childSnapshot.val();
-      leaderboard.push(entry);
-      userIds.add(entry.userId);
-    });
+      leaderboard.push({
+        userId: childSnapshot.key,
+        time: entry.time,
+      })
+      userIds.add(childSnapshot.key);
+    }
+    );
 
-    console.log(userIds);
     const usersNames = await getUserNames(userIds);
-  
 
     leaderboard.forEach((entry) => {
-      entry.username = usersNames[entry.userId] || "Unknown User";
+     
+        entry.username = usersNames[entry.userId] || "Unknown User";
+      
     });
 
     return leaderboard;

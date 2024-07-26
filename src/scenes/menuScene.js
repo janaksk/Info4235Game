@@ -6,8 +6,7 @@ import {
   onLogout,
 } from "../utils/menuActions.js";
 import { addKeyboardInput } from "../utils/keyboardInput.js";
-import { auth } from "../firebase/firebaseConfig.js";
-import { getLoggedUserName } from "../firebase/auth.js";
+
 
 class MenuScene extends Phaser.Scene {
   constructor() {

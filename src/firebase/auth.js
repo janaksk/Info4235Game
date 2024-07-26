@@ -19,6 +19,7 @@ const signUp = async (email, password, username) => {
       username: username,
       email: email,
       lastClearedLevel: 1,
+      totalTime: 0,
     });
 
     console.log("User data saved to Firestore");
@@ -69,14 +70,5 @@ console.log(`userIds: ${userIds}`);
   return userNames;
 }
 
-export async function getLoggedUserName(userId) {
-    const userRef = ref(db, `users/${userId}`);
-    const snapshot = await get(userRef);
-  
-    if (snapshot.exists()) {
-      return snapshot.val().username;
-    }
-    return "User not found";
-  }
 
 export { signUp, login };

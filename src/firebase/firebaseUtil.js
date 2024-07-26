@@ -15,7 +15,7 @@ export async function saveCompletionTime(level, userId, time) {
   if (prevBestTime > time || prevBestTime === null) {
     try {
       const userTimingRef = ref(db, `leaderboard/${level}/${userId}`);
-      await set(userTimingRef, {
+      await update(userTimingRef, {
         userId: userId,
         time: time,
       });
