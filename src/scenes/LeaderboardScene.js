@@ -4,8 +4,6 @@ import {
   orderByChild,
   limitToFirst,
   get,
-  orderByValue,
-  equalTo,
 } from "firebase/database";
 import { db } from "../firebase/firebaseConfig.js";
 import { getUserNames } from "../firebase/auth.js";
@@ -22,7 +20,7 @@ class LeaderboardScene extends Phaser.Scene {
     this.user = data.user;
     this.level = data.level;
     this.nextScene = data.nextScene || "MenuScene";
-    console.log(`insiie init ${this.level}, ${this.nextScene}, ${this.user}`);
+  
   }
 
   async create() {
@@ -86,7 +84,10 @@ class LeaderboardScene extends Phaser.Scene {
     }
     );
 
+;
+
     const usersNames = await getUserNames(userIds);
+
 
     leaderboard.forEach((entry) => {
      

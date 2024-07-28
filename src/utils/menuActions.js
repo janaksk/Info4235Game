@@ -1,11 +1,10 @@
-import { get } from "firebase/database";
 import { logOut } from "../firebase/auth";
 import {getLastClearedLevel} from "../firebase/firebaseUtil.js";
-import { getTopPlayers } from "../firebase/leaderBoardUtil.js";
+
 
 export async function onContinue(uid, scene) {
   try {
-    console.log("Continue clicked");
+ 
     const lastClearedLevel = await getLastClearedLevel(uid);
     console.log(parseInt(lastClearedLevel)+1);
     scene.scene.start(`Level${lastClearedLevel}Scene`, { level: `Level${parseInt(lastClearedLevel) + 1}`, user: scene.user });
@@ -14,15 +13,8 @@ export async function onContinue(uid, scene) {
   }
 }
   
-  export function gameLeaderBoard() {
-    console.log("Settings clicked");
-    getTopPlayers().then((topPlayers) => {
-      console.log("Top players:", topPlayers);
-      // Add your logic here
-    }
-    ).catch((error) => {
-      console.error('Error getting top players:', error);
-    });
+  export function gameLeaderBoard(uid, scene) {
+   scene.scene.start('Level6Scene', { user: scene.user, level: "Level6", nextScene: "MenuScene" });
     // Add your logic here
   }
   

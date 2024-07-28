@@ -16,7 +16,6 @@ class BaseLevelScene extends Phaser.Scene {
   init(data) {
     this.cameras.main.fadeIn(800);
     this.user = data.user;
-
     this.level = data.level;
     this.nextScene = data.nextScene || "MainMenuScene";
     this.includeMidground = data.includeMidground || false;

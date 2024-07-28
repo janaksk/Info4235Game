@@ -10,6 +10,7 @@ import Level5Scene from './scenes/Level5Scene.js';
 import { auth } from './firebase/firebaseConfig.js'
 import { onAuthStateChanged } from 'firebase/auth';
 import LeaderboardScene from './scenes/LeaderboardScene.js';
+import Level6Scene from './scenes/Level6Scene.js';
 
 
 const config = {
@@ -22,6 +23,7 @@ const config = {
       gravity: { y: 300 },
       debug: false,
 
+
     },
   },
   audio: {
@@ -32,11 +34,12 @@ const config = {
     mode: Phaser.Scale.FIT,
     autoCenter: Phaser.Scale.CENTER_BOTH,
     parent: 'game',
+    
   },
   dom: {
     createContainer: true,
   },
-  scene: [LoginScene,MenuScene,Level1Scene, LeaderboardScene, Level2Scene, Level3Scene, Level4Scene, Level5Scene],
+  scene: [LoginScene,MenuScene,Level1Scene, LeaderboardScene, Level2Scene, Level3Scene, Level4Scene, Level5Scene, Level6Scene],
 
 
 };

@@ -62,8 +62,7 @@ export async function getTopPlayers() {
     const snapshot = await get(q);
     snapshot.forEach((childSnapshot) => {
       const entry = childSnapshot.val();
-      console.log(entry);
-      console.log(`key: ${childSnapshot.key}`);
+      getTopPlayers.push(entry);
     });
     // console.log(getTopPlayers);
     return getTopPlayers;

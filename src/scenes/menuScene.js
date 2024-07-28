@@ -11,30 +11,31 @@ import { addKeyboardInput } from "../utils/keyboardInput.js";
 class MenuScene extends Phaser.Scene {
   constructor() {
     super({ key: "MenuScene" });
-    this.menuOptions = [];
-    this.selectedOptionIndex = 0;
+   
 
 
   }
 
   init(data) {
-    console.log(data.user.uid);
+    
     this.user = data.user;
+
   }
 
   preload() {
-    this.load.image("menuBackground", "assets/backgrounds/sky.png");
+    this.load.image("menuBg","assets/backgrounds/mainmenualt.png");
   }
 
-
-
   create() {
+    this.add.image(400, 300, "menuBg");
+    this.menuOptions = [];
+    this.selectedOptionIndex = 0;
 
     this.add
       .text(
         400,
         100,
-        `Main Menu - Welcome ${this.user.email}`,
+        `Main Menu`,
         { fontSize: "32px", fill: "#fff" }
       )
       .setOrigin(0.5);
@@ -49,10 +50,10 @@ class MenuScene extends Phaser.Scene {
     );
  
     this.menuOptions.push(
-      new MenuOption(this, 400, 350, "Leaderboard", gameLeaderBoard)
+      new MenuOption(this, 400, 300, "Leaderboard", this.handleLeaderboard.bind(this))
     );
 
-    this.menuOptions.push(new MenuOption(this, 400, 450, "Logout", onLogout));
+    this.menuOptions.push(new MenuOption(this, 400, 350, "Logout", onLogout));
 
     this.updateMenuSelection();
 
@@ -74,6 +75,10 @@ class MenuScene extends Phaser.Scene {
       console.log("No authenticated user found");
      
     }
+  }
+
+  handleLeaderboard() {
+    gameLeaderBoard(this.user.uid, this);
   }
 
   updateMenuSelection() {
