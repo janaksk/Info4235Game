@@ -6,7 +6,7 @@ import {
 //import { auth } from "../firebase/firebaseConfig.js";
 import { saveCompletionTime, setLastClearedLevel } from "../firebase/firebaseUtil.js";
 import { formatTime } from "../utils/formatTime.js";
-import {calculateCompletionTime} from "../firebase/leaderBoardUtil.js";
+
 
 class BaseLevelScene extends Phaser.Scene {
   constructor(key) {
@@ -126,9 +126,6 @@ class BaseLevelScene extends Phaser.Scene {
       await saveCompletionTime(this.level, this.user.uid, completionTime);
       await setLastClearedLevel(this.user.uid, ((this.nextScene).split("Level")[1]).split("Scene")[0]);  
       
-      if (this.level === "Level5") {
-        await saveCompletionTime( this.user.uid);
-      }
 
       this.cameras.main.fadeOut(800);
       this.time.delayedCall(

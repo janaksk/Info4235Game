@@ -7,9 +7,10 @@ import {
   orderByValue,
   equalTo,
 } from "firebase/database";
-import { auth, db } from "../firebase/firebaseConfig.js";
+import { db } from "../firebase/firebaseConfig.js";
 import { getUserNames } from "../firebase/auth.js";
 import { formatTime } from "../utils/formatTime.js";
+import { calculateTotalCompletionTime } from "../firebase/leaderBoardUtil.js";
 
 class LeaderboardScene extends Phaser.Scene {
   constructor() {
@@ -21,7 +22,7 @@ class LeaderboardScene extends Phaser.Scene {
     this.user = data.user;
     this.level = data.level;
     this.nextScene = data.nextScene || "MenuScene";
-    console.log(`insiie init ${this.level}, ${this.nextScene}`);
+    console.log(`insiie init ${this.level}, ${this.nextScene}, ${this.user}`);
   }
 
   async create() {
@@ -31,6 +32,10 @@ class LeaderboardScene extends Phaser.Scene {
 
     const leaderboard = await this.getLeaderboard(this.level);
     const playerRank = await this.getPlayerRank(this.level, this.user.uid);
+
+    if (this.level === "Level5") {
+      calculateTotalCompletionTime(this.user.uid);
+    }
 
     let yPosition = 100;
     leaderboard.forEach((entry, index) => {
@@ -56,7 +61,7 @@ class LeaderboardScene extends Phaser.Scene {
     }
 
     this.time.delayedCall(
-      8000,
+      2000,
       () => this.scene.start(this.nextScene, { level: this.nextScene.split("Scene")[0], user: this.user }),
       [],
       this

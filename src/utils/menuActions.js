@@ -1,5 +1,7 @@
+import { get } from "firebase/database";
 import { logOut } from "../firebase/auth";
 import {getLastClearedLevel} from "../firebase/firebaseUtil.js";
+import { getTopPlayers } from "../firebase/leaderBoardUtil.js";
 
 export async function onContinue(uid, scene) {
   try {
@@ -14,6 +16,13 @@ export async function onContinue(uid, scene) {
   
   export function gameLeaderBoard() {
     console.log("Settings clicked");
+    getTopPlayers().then((topPlayers) => {
+      console.log("Top players:", topPlayers);
+      // Add your logic here
+    }
+    ).catch((error) => {
+      console.error('Error getting top players:', error);
+    });
     // Add your logic here
   }
   
