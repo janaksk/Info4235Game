@@ -4,9 +4,11 @@ import {
   playSoundEffect,
 } from "../utils/commonFunctions.js";
 //import { auth } from "../firebase/firebaseConfig.js";
-import { saveCompletionTime, setLastClearedLevel } from "../firebase/firebaseUtil.js";
+import {
+  saveCompletionTime,
+  setLastClearedLevel,
+} from "../firebase/firebaseUtil.js";
 import { formatTime } from "../utils/formatTime.js";
-
 
 class BaseLevelScene extends Phaser.Scene {
   constructor(key) {
@@ -39,14 +41,12 @@ class BaseLevelScene extends Phaser.Scene {
     this.load.image("sky", "assets/backgrounds/tree.png");
     this.load.atlas("tiles", "assets/platformer.png", "assets/platformer.json");
     // SFX Assets
-    this.load.audio('track1', 'assets/music/Track1.mp3')
+    this.load.audio("track1", "assets/music/Track1.mp3");
     this.load.audio("waterSplash", "assets/sfx/water_splash.mp3");
   }
 
   create() {
-
-    const backgroundMusic = this.sound.add('track1', { volume: this.volMusic, loop: true });
-backgroundMusic.play();
+ 
 
     this.add.image(400, 300, "sky");
     if (this.includeMidground) {
@@ -88,6 +88,8 @@ backgroundMusic.play();
       callbackScope: this,
       loop: true,
     });
+
+    this.playMusic();
   }
 
   update() {
@@ -114,6 +116,11 @@ backgroundMusic.play();
     this.timerText.setText(`Time: ${formatTime(this.timeElapsed)}`);
   }
 
+  playMusic() {
+    this.backgroundMusic = this.sound.add("track1", { volume: this.volMusic, loop: true });
+    this.backgroundMusic.play();
+  }
+
   async collectStar(player, star) {
     playSoundEffect(this, "starCollected", { volume: this.volSFX });
     star.disableBody(true, true);
@@ -122,33 +129,33 @@ backgroundMusic.play();
 
     if (this.score === 1) {
       if (!this.user) {
-        if(this.nextScene === "Level6Scene"){
+        if (this.nextScene === "Level6Scene") {
           this.cameras.main.fadeOut(800);
           this.scene.start("LoginScene");
-        }
-        else{
+        } else {
           this.cameras.main.fadeOut(800);
           this.scene.start(this.nextScene);
         }
-      }
-      else{
+      } else {
         const completionTime = this.timeElapsed;
-      await saveCompletionTime(this.level, this.user.uid, completionTime);
-      await setLastClearedLevel(this.user.uid, ((this.nextScene).split("Level")[1]).split("Scene")[0]);  
-      
+        await saveCompletionTime(this.level, this.user.uid, completionTime);
+        await setLastClearedLevel(
+          this.user.uid,
+          this.nextScene.split("Level")[1].split("Scene")[0]
+        );
 
-      this.cameras.main.fadeOut(800);
-      this.time.delayedCall(
-        800,
-        () =>
-          this.scene.start("LeaderboardScene", {
-            level: this.level,
-            nextScene: this.nextScene,
-            user: this.user,
-          }),
-        [],
-        this
-      );
+        this.cameras.main.fadeOut(800);
+        this.time.delayedCall(
+          800,
+          () =>
+            this.scene.start("LeaderboardScene", {
+              level: this.level,
+              nextScene: this.nextScene,
+              user: this.user,
+            }),
+          [],
+          this
+        );
       }
     }
   }

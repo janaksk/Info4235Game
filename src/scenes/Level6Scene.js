@@ -1,15 +1,14 @@
 import { getTopPlayers } from "../firebase/leaderBoardUtil";
 import { formatTime } from "../utils/formatTime.js";
 
-class Level6Scene extends Phaser.Scene{
+
+class Level6Scene extends Phaser.Scene {
     constructor(){
         super({key: 'Level6Scene'});
     }
 
     init(data){
-        this.cameras.main.fadeIn(800);
         this.user = data.user;
-        this.level = data.level;
     }
 
     async create(){
@@ -37,6 +36,7 @@ class Level6Scene extends Phaser.Scene{
         this.time.delayedCall(
             10000,
             () => {
+            
               this.scene.stop('Level6Scene');
               this.scene.start('MenuScene', { user: this.user });
             },
@@ -44,9 +44,10 @@ class Level6Scene extends Phaser.Scene{
             this
           );
 
-    
+         
 
     }
+
 
 
 

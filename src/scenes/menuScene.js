@@ -28,6 +28,10 @@ class MenuScene extends Phaser.Scene {
   }
 
   create() {
+
+    //stop all previious music
+    this.sound.stopAll();
+
     const backgroundMusic = this.sound.add('track2', { volume: this.volMusic, loop: true });
 backgroundMusic.play();
     this.add.image(400, 300, "menuBg");
