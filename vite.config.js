@@ -1,5 +1,6 @@
 import { defineConfig, loadEnv } from 'vite';
 import { nodePolyfills } from 'vite-plugin-node-polyfills';
+import copy from 'rollup-plugin-copy';
 import path from 'path';
 
 export default defineConfig(({ mode }) => {
@@ -10,6 +11,15 @@ export default defineConfig(({ mode }) => {
     root: './src',
     build: {
       outDir: '../dist',
+      rollupOptions: {
+        plugins: [
+          copy({
+            targets: [
+              { src: 'src/assets/**/*', dest: 'dist/assets' }
+            ]
+          })
+        ]
+      }
     },
     define: {
       'import.meta.env': {

@@ -127,7 +127,7 @@ class BaseLevelScene extends Phaser.Scene {
     this.score += 1;
     this.scoreText.setText(`Score: ${this.score} /10`);
 
-    if (this.score === 1) {
+    if (this.score === 10) {
       if (!this.user) {
         if (this.nextScene === "Level6Scene") {
           this.cameras.main.fadeOut(800);

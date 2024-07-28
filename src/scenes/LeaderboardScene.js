@@ -52,7 +52,7 @@ class LeaderboardScene extends Phaser.Scene {
     }
 
     this.time.delayedCall(
-      2000,
+      6000,
       () =>
         this.scene.start(this.nextScene, {
           level: this.nextScene.split("Scene")[0],

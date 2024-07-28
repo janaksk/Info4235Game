@@ -39,7 +39,7 @@ const config = {
   dom: {
     createContainer: true,
   },
-  scene: [LoginScene,MenuScene,Level1Scene, LeaderboardScene, Level2Scene, Level3Scene, Level4Scene, Level5Scene, Level6Scene],
+  scene: [LoadingScene,LoginScene,MenuScene,Level1Scene, LeaderboardScene, Level2Scene, Level3Scene, Level4Scene, Level5Scene, Level6Scene],
 
 
 };

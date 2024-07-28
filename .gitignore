@@ -1,2 +1,39 @@
-node_modules
+# Node.js dependencies
+node_modules/
+
+# Vite build output
+dist/
+.vite/
+
+# Firebase functions
+functions/node_modules/
+functions/lib/
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+
+# Environment files
 .env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Firebase cache
+.firebase/
+
+# IDE or editor directories and files
+.vscode/
+.idea/
+.DS_Store
+
+# MacOS specific files
+.DS_Store
+
+# Build artifacts
+*.tsbuildinfo
+
+# Specific files for your project
+src/assets/ # If you have dynamic assets or files that should not be tracked
