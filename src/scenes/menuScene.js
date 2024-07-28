@@ -24,9 +24,12 @@ class MenuScene extends Phaser.Scene {
 
   preload() {
     this.load.image("menuBg","assets/backgrounds/mainmenualt.png");
+    this.load.audio('track2', 'assets/music/Track2.mp3')
   }
 
   create() {
+    const backgroundMusic = this.sound.add('track2', { volume: this.volMusic, loop: true });
+backgroundMusic.play();
     this.add.image(400, 300, "menuBg");
     this.menuOptions = [];
     this.selectedOptionIndex = 0;
@@ -45,6 +48,7 @@ class MenuScene extends Phaser.Scene {
       new MenuOption(this, 400, 200, "Continue", this.handleContinue.bind(this))  );
     this.menuOptions.push(
       new MenuOption(this, 400, 250, "New Game", () => {
+        backgroundMusic.stop();
         this.scene.start("Level1Scene", { level: "Level1", user: this.user });
       })
     );

@@ -1,10 +1,4 @@
-import {
-  ref,
-  query,
-  orderByChild,
-  limitToFirst,
-  get,
-} from "firebase/database";
+import { ref, query, orderByChild, limitToFirst, get } from "firebase/database";
 import { db } from "../firebase/firebaseConfig.js";
 import { getUserNames } from "../firebase/auth.js";
 import { formatTime } from "../utils/formatTime.js";
@@ -20,7 +14,6 @@ class LeaderboardScene extends Phaser.Scene {
     this.user = data.user;
     this.level = data.level;
     this.nextScene = data.nextScene || "MenuScene";
-  
   }
 
   async create() {
@@ -39,12 +32,12 @@ class LeaderboardScene extends Phaser.Scene {
     leaderboard.forEach((entry, index) => {
       this.add
         .text(
-          400,
+          200,
           yPosition,
-          `${index + 1}. ${entry.userId}: ${formatTime(entry.time)}`,
-          { fontSize: "24px", fill: "#789" }
+          `${index + 1}. ${entry.username}:      ${formatTime(entry.time)}`,
+          { fontSize: "24px", fill: "#789", align: "left" }
         )
-        .setOrigin(0.5);
+        .setOrigin(0, 0);
       yPosition += 30;
     });
 
@@ -60,11 +53,14 @@ class LeaderboardScene extends Phaser.Scene {
 
     this.time.delayedCall(
       2000,
-      () => this.scene.start(this.nextScene, { level: this.nextScene.split("Scene")[0], user: this.user }),
+      () =>
+        this.scene.start(this.nextScene, {
+          level: this.nextScene.split("Scene")[0],
+          user: this.user,
+        }),
       [],
       this
     );
-   
   }
 
   async getLeaderboard(level) {
@@ -72,33 +68,25 @@ class LeaderboardScene extends Phaser.Scene {
     const q = query(leaderboardRef, orderByChild("time"), limitToFirst(10));
     const snapshot = await get(q);
     const leaderboard = [];
-    const userIds = new Set();//set is a collection of unique values
+    const userIds = new Set(); //set is a collection of unique values
 
     snapshot.forEach((childSnapshot) => {
       const entry = childSnapshot.val();
       leaderboard.push({
         userId: childSnapshot.key,
         time: entry.time,
-      })
+      });
       userIds.add(childSnapshot.key);
-    }
-    );
-
-;
+    });
 
     const usersNames = await getUserNames(userIds);
 
-
     leaderboard.forEach((entry) => {
-     
-        entry.username = usersNames[entry.userId] || "Unknown User";
-      
+      entry.username = usersNames[entry.userId] || "Unknown User";
     });
 
     return leaderboard;
   }
-
-  
 
   async getPlayerRank(level, userId) {
     const leaderboardRef = ref(db, `leaderboard/${level}`);
@@ -116,7 +104,6 @@ class LeaderboardScene extends Phaser.Scene {
 
     return playerRank;
   }
-
 }
 
 export default LeaderboardScene;

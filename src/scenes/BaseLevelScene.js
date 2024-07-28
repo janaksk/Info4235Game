@@ -39,11 +39,15 @@ class BaseLevelScene extends Phaser.Scene {
     this.load.image("sky", "assets/backgrounds/tree.png");
     this.load.atlas("tiles", "assets/platformer.png", "assets/platformer.json");
     // SFX Assets
-
+    this.load.audio('track1', 'assets/music/Track1.mp3')
     this.load.audio("waterSplash", "assets/sfx/water_splash.mp3");
   }
 
   create() {
+
+    const backgroundMusic = this.sound.add('track1', { volume: this.volMusic, loop: true });
+backgroundMusic.play();
+
     this.add.image(400, 300, "sky");
     if (this.includeMidground) {
       this.add.image(400, 300, "midground");
@@ -118,7 +122,14 @@ class BaseLevelScene extends Phaser.Scene {
 
     if (this.score === 1) {
       if (!this.user) {
-        this.scene.start(this.nextScene, { user: null });
+        if(this.nextScene === "Level6Scene"){
+          this.cameras.main.fadeOut(800);
+          this.scene.start("LoginScene");
+        }
+        else{
+          this.cameras.main.fadeOut(800);
+          this.scene.start(this.nextScene);
+        }
       }
       else{
         const completionTime = this.timeElapsed;

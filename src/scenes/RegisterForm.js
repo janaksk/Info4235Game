@@ -1,5 +1,4 @@
 import { signUp, login } from "../firebase/auth.js";
-
 import { validateEmail, validatePassword } from "../utils/dataValidation.js";
 
 export default class RegisterForm {
@@ -22,7 +21,7 @@ export default class RegisterForm {
       } else if (event.target.name === "signupButton") {
         this.showRegisterSection();
       } else if (event.target.name === "registerButton") {
-        this.handleRegister();
+        this.handleRegister(event.target);
       }
     });
   }
@@ -71,7 +70,7 @@ export default class RegisterForm {
     document.getElementById("registerSection").style.display = "block";
   }
 
-  async handleRegister() {
+  async handleRegister(registerButton) {
     const regUsername = this.sanitizeInput(
       this.formElement.getChildByName("reg_username").value
     );
@@ -104,6 +103,7 @@ export default class RegisterForm {
     }
 
     if (password === confirmPassword) {
+      registerButton.disabled = true; // Disable the register button
       signUp(email, password, regUsername)
         .then((user) => {
           console.log("Registered successfully");
@@ -118,6 +118,7 @@ export default class RegisterForm {
           console.error("Error registering:", error);
           document.getElementById("registerError").innerText =
             "Error registering. Email already in use.";
+          registerButton.disabled = false; // Re-enable the register button in case of error
         });
     } else {
       document.getElementById("registerError").innerText =

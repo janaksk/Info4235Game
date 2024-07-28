@@ -17,6 +17,8 @@ class Level6Scene extends Phaser.Scene{
       .text(400, 50, "Leaderboard", { fontSize: "32px", fill: "#789" })
       .setOrigin(0.5);
 
+      
+
       const leaderboard = await getTopPlayers();
 
         let yPosition = 100;

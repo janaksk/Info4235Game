@@ -19,7 +19,7 @@ const signUp = async (email, password, username) => {
       username: username,
       email: email,
       lastClearedLevel: 1,
-      totalTime: 0,
+    
     });
 
     console.log("User data saved to Firestore");
@@ -55,15 +55,16 @@ export async function logOut() {
 
 export async function getUserNames(userIds) {
   const userNames = {};
-console.log(`userIds: ${userIds}`);
+console.log(`userIds insude get USername: ${userIds}`);
   for (const userId of userIds) {
-    const userRef = ref(db, `users/${userId}`);
+    const userRef = ref(db, `users`);
     const userQuery = query(userRef);
     const snapshot = await get(userQuery);
 
     snapshot.forEach((childSnapshot) => {
-      const user = childSnapshot.val();
-      userNames[userId] = user;
+      if(childSnapshot.key==userId){
+        userNames[userId]=childSnapshot.val().username;
+      }
     });
   }
   console.log(userNames);

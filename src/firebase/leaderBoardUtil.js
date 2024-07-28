@@ -5,6 +5,8 @@ import {
   orderByChild,
   limitToFirst,
   update,
+  startAt,
+
 } from "firebase/database";
 import { db } from "./firebaseConfig.js";
 
@@ -57,6 +59,7 @@ export async function getTopPlayers() {
     const q = query(
       leaderboardRef,
       orderByChild("totalTime"),
+      startAt(1),
       limitToFirst(10)
     );
     const snapshot = await get(q);
@@ -64,7 +67,7 @@ export async function getTopPlayers() {
       const entry = childSnapshot.val();
       getTopPlayers.push(entry);
     });
-    // console.log(getTopPlayers);
+    console.log(getTopPlayers);
     return getTopPlayers;
   } catch (e) {
     console.error("Error getting top players: ", e);
