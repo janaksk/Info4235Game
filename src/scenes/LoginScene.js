@@ -11,6 +11,7 @@ class LoginScene extends Phaser.Scene {
   }
 
   create() {
+    this.sound.stopAll();
     this.showRegisterForm();
   }
 

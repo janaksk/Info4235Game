@@ -58,7 +58,7 @@ class BaseLevelScene extends Phaser.Scene {
     this.createPlatforms();
 
     this.cursors = this.input.keyboard.createCursorKeys();
-
+    
     this.createStars();
 
     this.score = 0;
@@ -89,7 +89,7 @@ class BaseLevelScene extends Phaser.Scene {
       loop: true,
     });
 
-    this.playMusic();
+   
   }
 
   update() {
@@ -116,10 +116,7 @@ class BaseLevelScene extends Phaser.Scene {
     this.timerText.setText(`Time: ${formatTime(this.timeElapsed)}`);
   }
 
-  playMusic() {
-    this.backgroundMusic = this.sound.add("track1", { volume: this.volMusic, loop: true });
-    this.backgroundMusic.play();
-  }
+ 
 
   async collectStar(player, star) {
     playSoundEffect(this, "starCollected", { volume: this.volSFX });

@@ -10,6 +10,9 @@ class Level1Scene extends BaseLevelScene {
   }
 
   createPlatforms() {
+    this.sound.stopAll();
+    this.sound.add('track1');
+    this.sound.play('track1');
     this.platforms.create(200, 553, "ground");
     this.platforms.create(600, 553, "ground");
     this.platforms.create(200, 585, "ground");
