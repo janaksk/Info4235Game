@@ -17,6 +17,7 @@ class LeaderboardScene extends Phaser.Scene {
   }
 
   async create() {
+    console.log(`Leaderboard for ${this.level}  nextScene: ${this.nextScene}`);
     this.add
       .text(400, 50, "Leaderboard", { fontSize: "32px", fill: "#789" })
       .setOrigin(0.5);
