@@ -1,10 +1,26 @@
 # READ THIS IF YOUR TRYING TO WORK ON YOUR OWN MACHINE
 
-### The game already has the necessary files for phaser included via phaser.js
+# Install vite
+
+```
+npm init -y
+```
+
+```
+npm install --save-dev vite phaser firebase
+```
+
+```
+npm start
+```
+
+### OLD INSTALL INSTRUCTIONS:
 
 ### **Phaser does not have an IDE or working environment like a game engine, it is a library.**
 
 You should just be editing the code via VS Code or whatever editor of your choosing.
+
+THE INSTRUCTIONS BELOW ARE FOR OLD BUILD. USE TO THE npm COMMANDS FOR THE LATEST BUILDS. 
 
 To actually run the project, you just need to boot it as a webserver. For example, heres the easiest way (with python): in terminal, CD to the directory of the project, then just start a local server
 
@@ -21,18 +37,3 @@ Then on your browser, you would open:
 http://localhost:8000/index.html
 
 ```
-
-## And voila, game should open in browser. Im assuming i dont gotta explain how to connect git but if u confused just ask on the discord
-
-
-
-# Install vite
-
-```
-npm init -y
-```
-
-```
-npm install --save-dev vite phaser firebase
-```
-
